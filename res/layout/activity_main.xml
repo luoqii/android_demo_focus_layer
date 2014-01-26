@@ -11,4 +11,51 @@
         android:layout_centerVertical="true"
         android:text="@string/hello_world" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="top&amp;left" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/button1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="32dp"
+            android:text="bottom&amp;left" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/button2"
+            android:layout_alignBottom="@+id/button2"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="26dp"
+            android:text="bottom&amp;right" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/button1"
+            android:layout_alignBottom="@+id/button1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="23dp"
+            android:text="top&amp;right" />
+
+    </RelativeLayout>
+
+    <view class="org.bangbang.song.focuslayer.AnimationLayer" 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
