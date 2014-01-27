@@ -52,10 +52,16 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="23dp"
             android:text="top&amp;right" />
-
     </RelativeLayout>
 
-    <view class="org.bangbang.song.focuslayer.AnimationLayer" 
+    <view
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        class="org.bangbang.song.focuslayer.AnimatorFocusLayer" />
+
+<!--     <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="org.bangbang.song.focuslayer.AnimationFocusLayer" /> -->
+
 </RelativeLayout>
