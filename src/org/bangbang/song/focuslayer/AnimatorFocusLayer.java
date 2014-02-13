@@ -28,6 +28,7 @@ import android.widget.AbsoluteLayout;
 public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements AnimatorUpdateListener{
     private static final String TAG = AnimatorFocusLayer.class.getSimpleName();
     private static final boolean DEBUG_FOCUS_SESSION = true;
+    private static final boolean DEBUG_TRANSFER_ANIMATION = true;
 
     private Matrix mMatrix;
     private RectF mTmpRectF;
@@ -64,23 +65,26 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         mCurrentFocusView  = new FixedSizeView(getContext());
         mCurrentFocusView.setWidth(0);
         mCurrentFocusView.setHeight(0);
+        
         addView(mLastFocusView);
         addView(mCurrentFocusView);
     }
         
     @Override
-    public void onViewFocusd(View focus) {
-        super.onViewFocusd(focus);
+    protected void updateFocusView(View focus) {
+        super.updateFocusView(focus);
         
-        Log.d(TAG, "onViewFocusd(). view: " + focus);
+        Log.d(TAG, "updateFocusView(). view: " + focus);
         
-        if (!mDisableScale) {
+        if (!mDisableScaleAnimation) {
             mMatrix.reset();
             // adjust rect by scale factor.
-            mTmpRectF = new RectF(mCurrentFocusRect.left, mCurrentFocusRect.top, mCurrentFocusRect.right, mCurrentFocusRect.bottom);
+            mTmpRectF = new RectF(mCurrentFocusRect.left, mCurrentFocusRect.top,
+                    mCurrentFocusRect.right, mCurrentFocusRect.bottom);
             mMatrix.setScale(mScaleFactor, mScaleFactor, mTmpRectF.centerX(), mTmpRectF.centerY());
             mMatrix.mapRect(mTmpRectF);
-            mCurrentScaledFocusRect = new Rect((int)mTmpRectF.left, (int)mTmpRectF.top, (int)mTmpRectF.right, (int)mTmpRectF.bottom);
+            mCurrentScaledFocusRect = new Rect((int)mTmpRectF.left, (int)mTmpRectF.top,
+                    (int)mTmpRectF.right, (int)mTmpRectF.bottom);
 
             mMatrix.reset();
             mTmpRectF = new RectF(mLastFocusRect.left, mLastFocusRect.top,
@@ -98,10 +102,10 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         Log.d(TAG, "mLastScaledFocusRect: " + mLastScaledFocusRect);
         Log.d(TAG, "mCurrentScaledFocusRect: " + mCurrentScaledFocusRect);
         
-        if (!mDisableScale && mCurrentFocusBitmap != null) {
+        if (!mDisableScaleAnimation && mCurrentFocusBitmap != null) {
             mCurrentFocusView.setBackgroundDrawable(new BitmapDrawable(mCurrentFocusBitmap));
         }   
-        if (!mDisableScale && mLastFocusBitmap != null) {
+        if (!mDisableScaleAnimation && mLastFocusBitmap != null) {
             mLastFocusView.setBackgroundDrawable(new BitmapDrawable(mLastFocusBitmap));
         }
         
@@ -148,13 +152,15 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
     }
     
 
-    private void doAnimation() {    
+    private void doAnimation() {
         // focus rect.
         float fromX = mLastScaledFocusRect.left;
         float toX = mCurrentScaledFocusRect.left;
         float fromY = mLastScaledFocusRect.top;
-        float toY = mCurrentScaledFocusRect.top;    
-//      Log.d(TAG, "x-y fromX: " + fromX + " toX: " + toX + " fromY: " + fromY + " toY: " + toY);
+        float toY = mCurrentScaledFocusRect.top;
+        if (DEBUG_TRANSFER_ANIMATION) {
+            Log.d(TAG, "x-y fromX: " + fromX + " toX: " + toX + " fromY: " + fromY + " toY: " + toY);
+        }
         ObjectAnimator animatorRectX = ObjectAnimator.ofFloat(mFocusRectView, "x", fromX, toX);
         animatorRectX.setDuration(mDuration);
         ObjectAnimator animatorRectY = ObjectAnimator.ofFloat(mFocusRectView, "y", fromY, toY);
@@ -164,7 +170,9 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         float toW = mCurrentScaledFocusRect.width();
         float fromH = mLastScaledFocusRect.height();
         float toH = mCurrentScaledFocusRect.height();
-//      Log.d(TAG, "w-h fromW: " + fromW + " toW: " + toW + " fromH: " + fromH + " toH: " + toH);
+        if (DEBUG_TRANSFER_ANIMATION) {
+            Log.d(TAG, "w-h fromW: " + fromW + " toW: " + toW + " fromH: " + fromH + " toH: " + toH);
+        }
         ValueAnimator animatorRectW = ObjectAnimator.ofFloat(mFocusRectView, "width", fromW, toW);
         animatorRectW.setDuration(mDuration);
         animatorRectW.addUpdateListener(this);
@@ -172,9 +180,10 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         animatorRectH.setDuration(mDuration);
         animatorRectH.addUpdateListener(this);
         
-        AnimatorSet set = new AnimatorSet();        
+        AnimatorSet set = new AnimatorSet();
         // XXX do NOT work. bysong@tudou.com
         set.setDuration(mDuration);
+        
         Builder animatorBuilder = set
         .play(animatorRectW)
         .with(animatorRectH)
@@ -187,16 +196,12 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
     }
 
     private void doScaleAnimation(Builder animatorBuilder) {
-        float fromX;
-        float toX;
-        float fromY;
-        float toY;
-        float fromW;
-        float toW;
-        float fromH;
-        float toH;
-        
-        if (!mDisableScale) {
+        if (!mDisableScaleAnimation) {
+            float fromX, toX;
+            float fromY, toY;
+            float fromW, toW;
+            float fromH, toH;
+            
             // last focus view
             fromX = mLastScaledFocusRect.left;
             toX = mLastFocusRect.left;
@@ -239,7 +244,8 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             animatorCurrentH.setDuration(mDuration);
             animatorCurrentH.addUpdateListener(this);
 
-            animatorBuilder.with(animatorLastX)
+            animatorBuilder
+            .with(animatorLastX)
             .with(animatorLastY)
             .with(animatorLastW)
             .with(animatorLastH)

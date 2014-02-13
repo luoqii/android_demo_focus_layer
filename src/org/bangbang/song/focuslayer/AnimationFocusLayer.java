@@ -37,8 +37,8 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer{
     }
         
     @Override
-    public void onViewFocusd(View focus) {
-        super.onViewFocusd(focus);
+    public void updateFocusView(View focus) {
+        super.updateFocusView(focus);
                 
         doAnimation();
     }
