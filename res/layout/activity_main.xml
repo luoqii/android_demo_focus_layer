@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp" >
+        android:padding="32dp" >
 
         <Button
             android:id="@+id/button1"
@@ -36,22 +36,24 @@
             android:text="bottom&amp;left" />
 
         <Button
+            android:id="@+id/button3"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignBaseline="@+id/button2"
             android:layout_alignBottom="@+id/button2"
             android:layout_alignParentRight="true"
             android:layout_marginRight="26dp"
-            android:text="bottom&amp;right" />
+            android:text="bottomright" />
 
         <Button
+            android:id="@+id/button4"
             android:layout_width="50dp"
             android:layout_height="100dp"
             android:layout_alignBaseline="@+id/button1"
             android:layout_alignBottom="@+id/button1"
             android:layout_alignParentRight="true"
             android:layout_marginRight="23dp"
-            android:text="top&amp;right" />
+            android:text="topright" />
     </RelativeLayout>
 
     <view
