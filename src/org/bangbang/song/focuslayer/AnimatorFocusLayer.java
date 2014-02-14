@@ -206,13 +206,13 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         // layoutParams.height);
         updateViewLayout(mFocusRectView, layoutParams);
     }
-    
+
     @Override
     protected View onInflateScaleAnimationView(LayoutInflater layoutInflater) {
         View v = new FixedSizeView(getContext());
         return v;
     }
-    
+
     @Override
     protected View onInflateTranslateAnimationView(LayoutInflater layoutInflater) {
         View v = new FixedSizeView(getContext());
@@ -224,8 +224,8 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
     /**
      * fixed width & height.
      * <p>
-     * to incorporate with {@link Animator}, add {@link #setWidth(float)}
-     * and {@link #setHeight(float)} method.
+     * to incorporate with {@link Animator}, add {@link #setWidth(float)} and
+     * {@link #setHeight(float)} method.
      * <p>
      * after construct it, you should explicitly set width & height
      * 
@@ -276,19 +276,19 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         }
 
         public void setWidth(float w) {
-             Log.d(TAG, "setWidth(). w: " + w);
+            // Log.d(TAG, "setWidth(). w: " + w);
             mWidth = (int) w;
 
-            // updateFocusLayoutparams();
+            // must explicitly 1) request layout & 2)redraw
             requestLayout();
             invalidate();
         }
 
         public void setHeight(float h) {
-             Log.d(TAG, "setHeight(). h: " + h);
+            // Log.d(TAG, "setHeight(). h: " + h);
             mHeight = (int) h;
 
-            // updateFocusLayoutparams();
+            // must explicitly 1) request layout & 2)redraw
             requestLayout();
             invalidate();
         }

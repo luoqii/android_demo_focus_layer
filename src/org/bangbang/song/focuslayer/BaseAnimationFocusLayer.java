@@ -1,6 +1,7 @@
 
 package org.bangbang.song.focuslayer;
 
+import org.bangbang.song.android.commonlib.FPSLoger;
 import org.bangbang.song.android.commonlib.Grid;
 import org.bangbang.song.android.commonlib.Grid.GridDrawer;
 import org.bangbang.song.android.commonlib.ViewUtil;
@@ -20,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
-import android.widget.ImageView;
 
 /**
  * the animated bitmap MUST not has alpha channel.
@@ -34,14 +34,14 @@ public class BaseAnimationFocusLayer extends
 
     protected static final boolean DEBUG = true;
     protected static final boolean DRAW_GRIG = false && DEBUG;
+    protected static final boolean DEBUG_TRANSFER_ANIMATION = true && DEBUG;
+    protected static final boolean DEBUG_SCALE_ANIMATION = true && DEBUG;
+    private static final boolean TRACK_FPS = true && DEBUG;
     protected static final int OFFSET_X = 0;
     protected static final int OFFSET_Y = 0;
     private static final int DEFAULT_ANIMATION_DURATION = 2222;
     private static final float DEFAULT_SCALE_FACOTR = 1.3f;
 
-    protected static final boolean DEBUG_TRANSFER_ANIMATION = true && DEBUG;
-
-    protected static final boolean DEBUG_SCALE_ANIMATION = true && DEBUG;
 
     private Grid.GridDrawer mGridDrawer;
 
@@ -71,6 +71,8 @@ public class BaseAnimationFocusLayer extends
     protected boolean mDisableScaleAnimation;
 
     private boolean mFirstFocus = true;
+
+    private FPSLoger mFps;
 
     public BaseAnimationFocusLayer(Context context) {
         this(context, null);
@@ -109,6 +111,11 @@ public class BaseAnimationFocusLayer extends
         if (DRAW_GRIG) {
             setWillNotDraw(false);
             mGridDrawer = new GridDrawer(50, 50);
+        }
+        if (TRACK_FPS) {
+            setWillNotDraw(false);
+            
+            mFps = new FPSLoger(TAG);
         }
     }
 
@@ -156,6 +163,10 @@ public class BaseAnimationFocusLayer extends
             int w = getWidth();
             int h = getHeight();
             mGridDrawer.onDraw(canvas, w, h);
+        }
+        
+        if (TRACK_FPS && mFps != null) {
+            mFps.onDraw();
         }
     }
 
