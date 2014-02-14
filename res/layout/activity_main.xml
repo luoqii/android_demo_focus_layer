@@ -12,13 +12,6 @@
         android:layout_centerVertical="true"
         android:text="@string/hello_world" />
 
-    <View
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/anchor"
-        android:layout_below="@id/anchor" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,16 +57,14 @@
             android:text="top&amp;right" />
     </RelativeLayout>
 
-<!--     <view
+    <view
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.bangbang.song.focuslayer.AnimatorFocusLayer" /> -->
+        class="org.bangbang.song.focuslayer.AnimatorFocusLayer" />
 
-    
-         <view
+<!--               <view
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.bangbang.song.focuslayer.AnimationFocusLayer" />
-    
+        class="org.bangbang.song.focuslayer.AnimationFocusLayer" /> -->
 
 </RelativeLayout>
