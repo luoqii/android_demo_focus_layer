@@ -50,10 +50,10 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
     private void updateAnimatedViewAttr() {
         LayoutParams params = null;
     
-        int width = mCurrentFocusRect.width();
-        int height = mCurrentFocusRect.height();
-        int x = mCurrentFocusRect.left + OFFSET_X;
-        int y = mCurrentFocusRect.top + OFFSET_Y;
+        int width = mCurrentScaledFocusRect.width();
+        int height = mCurrentScaledFocusRect.height();
+        int x = mCurrentScaledFocusRect.left + OFFSET_X;
+        int y = mCurrentScaledFocusRect.top + OFFSET_Y;
         Log.d(TAG, "new layout params x: " + x + " y: " + y + " width: " + width + " height: "
                 + height);
         params = new AbsoluteLayout.LayoutParams(width, height, x, y);
@@ -93,16 +93,16 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
     }
 
     private void addScaleAnimation(AnimationSet animationSet) {
-        float fromX = (float) mLastFocusRect.width() / mCurrentFocusRect.width();
+        float fromX = (float) mLastScaledFocusRect.width() / mCurrentScaledFocusRect.width();
         float toX = 1;
-        float fromY = (float) mLastFocusRect.height() / mCurrentFocusRect.height();
+        float fromY = (float) mLastScaledFocusRect.height() / mCurrentScaledFocusRect.height();
         float toY = 1;
-        float pivotX = mCurrentFocusRect.exactCenterX();
-        float pivotY = mCurrentFocusRect.exactCenterY();
+        float pivotX = mCurrentScaledFocusRect.exactCenterX();
+        float pivotY = mCurrentScaledFocusRect.exactCenterY();
         pivotX = (float) mFocusRectView.getWidth() / 2;
         pivotY = (float) mFocusRectView.getHeight() / 2;
-        pivotX = (float) mCurrentFocusRect.width() / 2;
-        pivotY = (float) mCurrentFocusRect.height() / 2;
+        pivotX = (float) mCurrentScaledFocusRect.width() / 2;
+        pivotY = (float) mCurrentScaledFocusRect.height() / 2;
         
         pivotX = (float) 0.5;
         pivotY = (float) 0.5;
@@ -118,9 +118,9 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
     }
 
     private void addTranslateAnimation(AnimationSet animationSet) {
-        float fromXDelta = mLastFocusRect.centerX() - mCurrentFocusRect.centerX();
+        float fromXDelta = mLastScaledFocusRect.centerX() - mCurrentScaledFocusRect.centerX();
         float toXDelta = 0;
-        float fromYDelta = mLastFocusRect.centerY() - mCurrentFocusRect.centerY();
+        float fromYDelta = mLastScaledFocusRect.centerY() - mCurrentScaledFocusRect.centerY();
         float toYDelta = 0;
         if (DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "translate fromXDelta: " + fromXDelta + " toXDelta: " + toXDelta
