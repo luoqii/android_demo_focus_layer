@@ -10,7 +10,6 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
@@ -28,14 +27,6 @@ import android.widget.ImageView.ScaleType;
 public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements AnimatorUpdateListener{
     private static final String TAG = AnimatorFocusLayer.class.getSimpleName();
     private static final boolean DEBUG_FOCUS_SESSION = true;
-    private static final boolean DEBUG_TRANSFER_ANIMATION = true;
-    private static final boolean DEBUG_SCALE_ANIMATION = true;
-
-    private FixedSizeView mLastFocusView;
-    private FixedSizeView mCurrentFocusView;
-
-    private boolean mFirstFocus;
-    
     public AnimatorFocusLayer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
@@ -55,78 +46,27 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
     }
 
     private void init() {   
-        
-        mLastFocusView = new FixedSizeView(getContext());
-        mLastFocusView.setWidth(0);
-        mLastFocusView.setHeight(0);
-        mCurrentFocusView  = new FixedSizeView(getContext());
-        mCurrentFocusView.setWidth(0);
-        mCurrentFocusView.setHeight(0);
-        
-        addView(mLastFocusView);
-        addView(mCurrentFocusView);
     }
         
     @Override
     protected void updateFocusView(View focus) {
-        Log.d(TAG, "updateFocusView(). view: " + focus);
         super.updateFocusView(focus);
                 
         if (!mDisableScaleAnimation && mCurrentFocusBitmap != null) {
             mCurrentFocusView.setBackgroundColor(Color.BLACK);
 //            mCurrentFocusView.setBackgroundDrawable(new BitmapDrawable(mCurrentFocusBitmap));
-            mCurrentFocusView.setScaleType(ScaleType.FIT_XY);
+//            mCurrentFocusView.setScaleType(ScaleType.FIT_XY);
             mCurrentFocusView.setImageBitmap(mCurrentFocusBitmap);
         }
         if (!mDisableScaleAnimation && mLastFocusBitmap != null) {
             mLastFocusView.setBackgroundColor(Color.BLACK);
 //            mLastFocusView.setBackgroundDrawable(new BitmapDrawable(mLastFocusBitmap));
             mLastFocusView.setImageBitmap(mLastFocusBitmap);
-            mLastFocusView.setScaleType(ScaleType.FIT_XY);
+//            mLastFocusView.setScaleType(ScaleType.FIT_XY);
         }
         
         doAnimation();
     }
-
-    private void initFocusTarget() {
-        // no animation in firstly focus on.
-        mLastFocusRect = new Rect(mCurrentFocusRect);
-        mLastScaledFocusRect = new Rect(mCurrentScaledFocusRect);
-
-        Log.d(TAG, "first focus: mLastFocusRect: " + mLastFocusRect);
-        Log.d(TAG, "first focus: mCurrentFocusRect: " + mCurrentFocusRect);
-        Log.d(TAG, "first focus: mLastScaledFocusRect: " + mLastScaledFocusRect);
-        Log.d(TAG, "first focus: mCurrentScaledFocusRect: " + mCurrentScaledFocusRect);
-        
-        int width = mCurrentScaledFocusRect.width();
-        int height = mCurrentScaledFocusRect.height();
-        int x = mCurrentScaledFocusRect.left;
-        int y = mCurrentScaledFocusRect.top;
-        Log.d(TAG, "new w: " + width + " h: " + height + " x: " + x + " y: " + y);
-        
-        mFocusRectView.setVisibility(VISIBLE);
-        mFocusRectView.setWidth(width);
-        mFocusRectView.setHeight(height);
-        updateViewLayout(mFocusRectView, new AbsoluteLayout.LayoutParams(
-                width,
-                height,
-                x,
-                y
-                ));
-//      updateViewLayout(mCurrentFocusView, new AbsoluteLayout.LayoutParams(
-//              width,
-//              height,
-//              x,
-//              y
-//              ));
-//      updateViewLayout(mLastFocusView, new AbsoluteLayout.LayoutParams(
-//              width, 
-//              height, 
-//              x,
-//              y
-//              ));
-    }
-    
 
     private void doAnimation() {
         // focus rect.
@@ -228,7 +168,6 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             animatorCurrentW.addUpdateListener(this);
             ObjectAnimator animatorCurrentH = ObjectAnimator.ofFloat(mCurrentFocusView, "height", fromH, toH);
             animatorCurrentH.setDuration(mDuration);
-            animatorCurrentH.addUpdateListener(this);
             if (DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mCurrentFocusView::w-h fromW: " + fromW + " toW: " + toW + " fromH: " + fromH + " toH: " + toH);
             }
@@ -249,10 +188,11 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
     
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
+        // XXX why we need this.
         updateFocusLayoutparams();
     }
 
-    public void updateFocusLayoutparams() {
+    private void updateFocusLayoutparams() {
         AbsoluteLayout.LayoutParams layoutParams = (LayoutParams) mFocusRectView.getLayoutParams();
         int w = mFocusRectView.getWidth();
         int h = mFocusRectView.getHeight();

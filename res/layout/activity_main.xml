@@ -5,11 +5,19 @@
     tools:context=".MainActivity" >
 
     <TextView
+        android:id="@+id/anchor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/hello_world" />
+
+    <View
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/anchor"
+        android:layout_below="@id/anchor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +51,7 @@
             android:layout_alignBottom="@+id/button2"
             android:layout_alignParentRight="true"
             android:layout_marginRight="26dp"
-            android:text="bottomright" />
+            android:text="bottom&amp;right" />
 
         <Button
             android:id="@+id/button4"
@@ -53,17 +61,19 @@
             android:layout_alignBottom="@+id/button1"
             android:layout_alignParentRight="true"
             android:layout_marginRight="23dp"
-            android:text="topright" />
+            android:text="top&amp;right" />
     </RelativeLayout>
-
-    <view
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="org.bangbang.song.focuslayer.AnimatorFocusLayer" />
 
 <!--     <view
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.bangbang.song.focuslayer.AnimationFocusLayer" /> -->
+        class="org.bangbang.song.focuslayer.AnimatorFocusLayer" /> -->
+
+    
+         <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="org.bangbang.song.focuslayer.AnimationFocusLayer" />
+    
 
 </RelativeLayout>
