@@ -20,6 +20,8 @@ import android.widget.Button;
  * draw view's content at another place.
  * 
  * @author bysong
+ * 
+ * XXX: for textview's marquee, this does not work.
  */
 public class DuplicatedDrawActivity extends Activity {
     private static final String TAG = DuplicatedDrawActivity.class.getSimpleName();
@@ -40,7 +42,7 @@ public class DuplicatedDrawActivity extends Activity {
 
     public static class MySource extends Button {
     
-        private SoftReference<View> mView;
+        private SoftReference<View> mView = new SoftReference<View>(null);
         private boolean mDrawDuplicate;
     
         public MySource(Context context, AttributeSet attrs, int defStyle) {
@@ -64,7 +66,7 @@ public class DuplicatedDrawActivity extends Activity {
             super.draw(canvas);
             Log.d(TAG, "draw");
     
-            if (mDrawDuplicate) { // overstack
+            if (mDrawDuplicate) { // stack overflow
                 return;
             }
     

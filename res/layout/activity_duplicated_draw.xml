@@ -4,26 +4,30 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-<!--     <TextView
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:ellipsize="marquee"
-        android:singleLine="true" /> -->
+        android:singleLine="true"
+        android:marqueeRepeatLimit="1"
+        android:visibility="gone" />
 
     <view
         android:id="@+id/src"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_x="100dp"
-        android:layout_y="100dp"
+        android:layout_x="50dp"
+        android:layout_y="50dp"
         class="org.bangbang.song.demo.focuslayer.DuplicatedDrawActivity$MySource"
-        android:ellipsize="marquee"
+
         android:text="string/hello_worldbsdfasdfdsafadsfadsfasdfasf" />
 
     <view
         android:id="@+id/dest"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_x="100dp"
-        android:layout_y="400dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_x="50dp"
+        android:layout_y="200dp"
         class="org.bangbang.song.demo.focuslayer.DuplicatedDrawActivity$MyDestination" />
 
 </AbsoluteLayout>

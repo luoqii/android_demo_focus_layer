@@ -23,7 +23,8 @@ import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 
 /**
- * the animated bitmap MUST not has alpha channel.
+ * the animated bitmap MUST not has alpha channel, otherwise, 
+ * there is a ghost on screen.
  * 
  * @author bysong
  */
