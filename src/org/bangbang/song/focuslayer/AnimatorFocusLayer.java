@@ -67,7 +67,7 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         float toX = mConfigure.mCurrentScaledFocusRect.left;
         float fromY = mConfigure.mLastScaledFocusRect.top;
         float toY = mConfigure.mCurrentScaledFocusRect.top;
-        if (DEBUG_TRANSFER_ANIMATION) {
+        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "mFocusRectView::x-y fromX: " + fromX + " toX: " + toX + " fromY: " + fromY
                     + " toY: " + toY);
         }
@@ -80,7 +80,7 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
         float toW = mConfigure.mCurrentScaledFocusRect.width();
         float fromH = mConfigure.mLastScaledFocusRect.height();
         float toH = mConfigure.mCurrentScaledFocusRect.height();
-        if (DEBUG_TRANSFER_ANIMATION) {
+        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "mFocusRectView::w-h fromW: " + fromW + " toW: " + toW + " fromH: " + fromH
                     + " toH: " + toH);
         }
@@ -122,7 +122,7 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             animatorLastX.setDuration(mConfigure.mDuration);
             ObjectAnimator animatorLastY = ObjectAnimator.ofFloat(mLastFocusView, "y", fromY, toY);
             animatorLastY.setDuration(mConfigure.mDuration);
-            if (DEBUG_SCALE_ANIMATION) {
+            if (mConfigure.DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mLastFocusView::x-y fromX: " + fromX + " toX: " + toX + " fromY: "
                         + fromY + " toY: " + toY);
             }
@@ -139,7 +139,7 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
                     toH);
             animatorLastH.setDuration(mConfigure.mDuration);
             animatorLastH.addUpdateListener(this);
-            if (DEBUG_SCALE_ANIMATION) {
+            if (mConfigure.DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mLastFocusView::w-h fromW: " + fromW + " toW: " + toW + " fromH: "
                         + fromH + " toH: " + toH);
             }
@@ -155,7 +155,7 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             ObjectAnimator animatorCurrentY = ObjectAnimator.ofFloat(mCurrentFocusView, "y", fromY,
                     toY);
             animatorCurrentY.setDuration(mConfigure.mDuration);
-            if (DEBUG_SCALE_ANIMATION) {
+            if (mConfigure.DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mCurrentFocusView::x-y fromX: " + fromX + " toX: " + toX + " fromY: "
                         + fromY + " toY: " + toY);
             }
@@ -171,7 +171,7 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             ObjectAnimator animatorCurrentH = ObjectAnimator.ofFloat(mCurrentFocusView, "height",
                     fromH, toH);
             animatorCurrentH.setDuration(mConfigure.mDuration);
-            if (DEBUG_SCALE_ANIMATION) {
+            if (mConfigure.DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mCurrentFocusView::w-h fromW: " + fromW + " toW: " + toW + " fromH: "
                         + fromH + " toH: " + toH);
             }

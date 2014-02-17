@@ -33,11 +33,6 @@ public class BaseAnimationFocusLayer extends
         implements IFocusAnimationLayer {
     private static final String TAG = BaseAnimationFocusLayer.class.getSimpleName();
 
-    protected static final boolean DEBUG = true;
-    protected static final boolean DRAW_GRIG = false && DEBUG;
-    protected static final boolean DEBUG_TRANSFER_ANIMATION = true && DEBUG;
-    protected static final boolean DEBUG_SCALE_ANIMATION = true && DEBUG;
-    private static final boolean TRACK_FPS = true && DEBUG;
     protected static final int OFFSET_X = 0;
     protected static final int OFFSET_Y = 0;
 
@@ -85,11 +80,11 @@ public class BaseAnimationFocusLayer extends
         mConfigure = new AnimationConfigure();
 
         setBackgroundColor(Color.TRANSPARENT);
-        if (DRAW_GRIG) {
+        if (mConfigure.DRAW_GRIG) {
             setWillNotDraw(false);
             mGridDrawer = new GridDrawer(50, 50);
         }
-        if (TRACK_FPS) {
+        if (mConfigure.TRACK_FPS) {
             setWillNotDraw(false);
             
             mFps = new FPSLoger(TAG);
@@ -120,13 +115,13 @@ public class BaseAnimationFocusLayer extends
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (DRAW_GRIG) {
+        if (mConfigure.DRAW_GRIG) {
             int w = getWidth();
             int h = getHeight();
             mGridDrawer.onDraw(canvas, w, h);
         }
         
-        if (TRACK_FPS && mFps != null) {
+        if (mConfigure.TRACK_FPS && mFps != null) {
             mFps.onDraw();
         }
     }

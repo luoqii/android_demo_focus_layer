@@ -14,6 +14,12 @@ public class AnimationConfigure {
     private static final String TAG = AnimationConfigure.class.getSimpleName();
     private static final int DEFAULT_ANIMATION_DURATION = 2222;
     private static final float DEFAULT_SCALE_FACOTR = 1.3f;
+
+    public static final boolean DEBUG = true;
+    public static final boolean DRAW_GRIG = false && DEBUG;
+    public static final boolean DEBUG_TRANSFER_ANIMATION = true && DEBUG;
+    public static final boolean DEBUG_SCALE_ANIMATION = true && DEBUG;
+    public static final boolean TRACK_FPS = true && DEBUG;
     
     public Rect mTmpRect = new Rect();
     

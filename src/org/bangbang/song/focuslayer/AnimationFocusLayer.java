@@ -67,7 +67,7 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
         int height = currentRect.height();
         int x = currentRect.left + OFFSET_X;
         int y = currentRect.top + OFFSET_Y;
-        if (DEBUG_TRANSFER_ANIMATION) {
+        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "new layout params x: " + x + " y: " + y + " width: " + width + " height: "
                     + height);
         }
@@ -93,7 +93,7 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
         
         pivotX = (float) 0.5;
         pivotY = (float) 0.5;
-        if (DEBUG_SCALE_ANIMATION) {
+        if (mConfigure.DEBUG_SCALE_ANIMATION) {
             Log.d(TAG, "scale fromX: " + fromX + " toX: " + toX + " fromY: " + fromY + " toY: "
                     + toY + " pivotX: " + pivotX + " pivotY: " + pivotY);
         }
@@ -106,7 +106,7 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
         float toXDelta = 0;
         float fromYDelta = lastRect.centerY() - currentRect.centerY();
         float toYDelta = 0;
-        if (DEBUG_TRANSFER_ANIMATION) {
+        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "translate fromXDelta: " + fromXDelta + " toXDelta: " + toXDelta
                     + " fromYDelta: " + fromYDelta + " toYDelta: " + toYDelta);
         }
@@ -130,7 +130,7 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
         int height = rect.height();
         int x = rect.left + OFFSET_X;
         int y = rect.top + OFFSET_Y;
-        if (DEBUG_TRANSFER_ANIMATION) {
+        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "new layout params x: " + x + " y: " + y + " width: " + width + " height: "
                     + height);
         }
@@ -143,7 +143,7 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
         float toY = 1;
         float pivotX = .5f;
         float pivotY = .5f;
-        if (DEBUG_SCALE_ANIMATION) {
+        if (mConfigure.DEBUG_SCALE_ANIMATION) {
             Log.d(TAG, "scale fromX: " + fromX + " toX: " + toX + " fromY: " + fromY + " toY: "
                     + toY + " pivotX: " + pivotX + " pivotY: " + pivotY);
         }
@@ -163,7 +163,7 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
         int height = scaledRect.height();
         int x = scaledRect.left + OFFSET_X;
         int y = scaledRect.top + OFFSET_Y;
-        if (DEBUG_TRANSFER_ANIMATION) {
+        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "new layout params x: " + x + " y: " + y + " width: " + width + " height: "
                     + height);
         }
@@ -183,7 +183,7 @@ public class AnimationFocusLayer extends BaseAnimationFocusLayer {
         
         pivotX = (float) 0.5;
         pivotY = (float) 0.5;
-        if (DEBUG_SCALE_ANIMATION) {
+        if (mConfigure.DEBUG_SCALE_ANIMATION) {
             Log.d(TAG, "scale fromX: " + fromX + " toX: " + toX + " fromY: " + fromY + " toY: "
                     + toY + " pivotX: " + pivotX + " pivotY: " + pivotY);
         }
