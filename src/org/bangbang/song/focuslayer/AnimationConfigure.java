@@ -135,7 +135,7 @@ public class AnimationConfigure {
         int w = mCurrentScaledFocusRect.width();
         int h = mCurrentScaledFocusRect.height();
         Log.d(TAG, "focus bitmap W: " + w + " H: " + h);
-        return ViewUtil.getBitmapX(focus, w, h);
+        return ViewUtil.getBitmap(focus, w, h);
     }
     
     private void initFocusTarget() {

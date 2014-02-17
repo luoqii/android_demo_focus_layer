@@ -45,7 +45,7 @@ public class OffscreenBitmapActivity extends Activity {
         View copy = findViewById(id);
         int w = mPaste.getWidth();
         int h = mPaste.getHeight();
-        Bitmap bitmap = ViewUtil.getBitmapX(copy, w, h);
+        Bitmap bitmap = ViewUtil.getBitmap(copy, w, h);
         
 //        mPaste.setBackground(new BitmapDrawable(bitmap));
         mPaste.setBackgroundDrawable(new BitmapDrawable(bitmap));
