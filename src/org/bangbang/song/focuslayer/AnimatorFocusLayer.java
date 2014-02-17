@@ -63,37 +63,37 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
 
     private void doAnimation() {
         // focus rect.
-        float fromX = mLastScaledFocusRect.left;
-        float toX = mCurrentScaledFocusRect.left;
-        float fromY = mLastScaledFocusRect.top;
-        float toY = mCurrentScaledFocusRect.top;
+        float fromX = mConfigure.mLastScaledFocusRect.left;
+        float toX = mConfigure.mCurrentScaledFocusRect.left;
+        float fromY = mConfigure.mLastScaledFocusRect.top;
+        float toY = mConfigure.mCurrentScaledFocusRect.top;
         if (DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "mFocusRectView::x-y fromX: " + fromX + " toX: " + toX + " fromY: " + fromY
                     + " toY: " + toY);
         }
         ObjectAnimator animatorRectX = ObjectAnimator.ofFloat(mFocusRectView, "x", fromX, toX);
-        animatorRectX.setDuration(mDuration);
+        animatorRectX.setDuration(mConfigure.mDuration);
         ObjectAnimator animatorRectY = ObjectAnimator.ofFloat(mFocusRectView, "y", fromY, toY);
-        animatorRectY.setDuration(mDuration);
+        animatorRectY.setDuration(mConfigure.mDuration);
 
-        float fromW = mLastScaledFocusRect.width();
-        float toW = mCurrentScaledFocusRect.width();
-        float fromH = mLastScaledFocusRect.height();
-        float toH = mCurrentScaledFocusRect.height();
+        float fromW = mConfigure.mLastScaledFocusRect.width();
+        float toW = mConfigure.mCurrentScaledFocusRect.width();
+        float fromH = mConfigure.mLastScaledFocusRect.height();
+        float toH = mConfigure.mCurrentScaledFocusRect.height();
         if (DEBUG_TRANSFER_ANIMATION) {
             Log.d(TAG, "mFocusRectView::w-h fromW: " + fromW + " toW: " + toW + " fromH: " + fromH
                     + " toH: " + toH);
         }
         ValueAnimator animatorRectW = ObjectAnimator.ofFloat(mFocusRectView, "width", fromW, toW);
-        animatorRectW.setDuration(mDuration);
+        animatorRectW.setDuration(mConfigure.mDuration);
         animatorRectW.addUpdateListener(this);
         ObjectAnimator animatorRectH = ObjectAnimator.ofFloat(mFocusRectView, "height", fromH, toH);
-        animatorRectH.setDuration(mDuration);
+        animatorRectH.setDuration(mConfigure.mDuration);
         animatorRectH.addUpdateListener(this);
 
         AnimatorSet set = new AnimatorSet();
         // XXX do NOT work. bysong@tudou.com
-        set.setDuration(mDuration);
+        set.setDuration(mConfigure.mDuration);
 
         Builder animatorBuilder = set
                 .play(animatorRectW)
@@ -107,37 +107,37 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
     }
 
     private void doScaleAnimation(Builder animatorBuilder) {
-        if (!mDisableScaleAnimation) {
+        if (!mConfigure.mDisableScaleAnimation) {
             float fromX, toX;
             float fromY, toY;
             float fromW, toW;
             float fromH, toH;
 
             // last focus view
-            fromX = mLastScaledFocusRect.left;
-            toX = mLastFocusRect.left;
-            fromY = mLastScaledFocusRect.top;
-            toY = mLastFocusRect.top;
+            fromX = mConfigure.mLastScaledFocusRect.left;
+            toX = mConfigure.mLastFocusRect.left;
+            fromY = mConfigure.mLastScaledFocusRect.top;
+            toY = mConfigure.mLastFocusRect.top;
             ObjectAnimator animatorLastX = ObjectAnimator.ofFloat(mLastFocusView, "x", fromX, toX);
-            animatorLastX.setDuration(mDuration);
+            animatorLastX.setDuration(mConfigure.mDuration);
             ObjectAnimator animatorLastY = ObjectAnimator.ofFloat(mLastFocusView, "y", fromY, toY);
-            animatorLastY.setDuration(mDuration);
+            animatorLastY.setDuration(mConfigure.mDuration);
             if (DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mLastFocusView::x-y fromX: " + fromX + " toX: " + toX + " fromY: "
                         + fromY + " toY: " + toY);
             }
 
-            fromW = mLastScaledFocusRect.width();
-            toW = mLastFocusRect.width();
-            fromH = mLastScaledFocusRect.height();
-            toH = mLastFocusRect.height();
+            fromW = mConfigure.mLastScaledFocusRect.width();
+            toW = mConfigure.mLastFocusRect.width();
+            fromH = mConfigure.mLastScaledFocusRect.height();
+            toH = mConfigure.mLastFocusRect.height();
             ValueAnimator animatorLastW = ObjectAnimator.ofFloat(mLastFocusView, "width", fromW,
                     toW);
-            animatorLastW.setDuration(mDuration);
+            animatorLastW.setDuration(mConfigure.mDuration);
             animatorLastW.addUpdateListener(this);
             ObjectAnimator animatorLastH = ObjectAnimator.ofFloat(mLastFocusView, "height", fromH,
                     toH);
-            animatorLastH.setDuration(mDuration);
+            animatorLastH.setDuration(mConfigure.mDuration);
             animatorLastH.addUpdateListener(this);
             if (DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mLastFocusView::w-h fromW: " + fromW + " toW: " + toW + " fromH: "
@@ -145,32 +145,32 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             }
 
             // current focus view
-            fromX = mCurrentFocusRect.left;
-            toX = mCurrentScaledFocusRect.left;
-            fromY = mCurrentFocusRect.top;
-            toY = mCurrentScaledFocusRect.top;
+            fromX = mConfigure.mCurrentFocusRect.left;
+            toX = mConfigure.mCurrentScaledFocusRect.left;
+            fromY = mConfigure.mCurrentFocusRect.top;
+            toY = mConfigure.mCurrentScaledFocusRect.top;
             ObjectAnimator animatorCurrentX = ObjectAnimator.ofFloat(mCurrentFocusView, "x", fromX,
                     toX);
-            animatorCurrentX.setDuration(mDuration);
+            animatorCurrentX.setDuration(mConfigure.mDuration);
             ObjectAnimator animatorCurrentY = ObjectAnimator.ofFloat(mCurrentFocusView, "y", fromY,
                     toY);
-            animatorCurrentY.setDuration(mDuration);
+            animatorCurrentY.setDuration(mConfigure.mDuration);
             if (DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mCurrentFocusView::x-y fromX: " + fromX + " toX: " + toX + " fromY: "
                         + fromY + " toY: " + toY);
             }
 
-            fromW = mCurrentFocusRect.width();
-            toW = mCurrentScaledFocusRect.width();
-            fromH = mCurrentFocusRect.height();
-            toH = mCurrentScaledFocusRect.height();
+            fromW = mConfigure.mCurrentFocusRect.width();
+            toW = mConfigure.mCurrentScaledFocusRect.width();
+            fromH = mConfigure.mCurrentFocusRect.height();
+            toH = mConfigure.mCurrentScaledFocusRect.height();
             ValueAnimator animatorCurrentW = ObjectAnimator.ofFloat(mCurrentFocusView, "width",
                     fromW, toW);
-            animatorCurrentW.setDuration(mDuration);
+            animatorCurrentW.setDuration(mConfigure.mDuration);
             animatorCurrentW.addUpdateListener(this);
             ObjectAnimator animatorCurrentH = ObjectAnimator.ofFloat(mCurrentFocusView, "height",
                     fromH, toH);
-            animatorCurrentH.setDuration(mDuration);
+            animatorCurrentH.setDuration(mConfigure.mDuration);
             if (DEBUG_SCALE_ANIMATION) {
                 Log.d(TAG, "mCurrentFocusView::w-h fromW: " + fromW + " toW: " + toW + " fromH: "
                         + fromH + " toH: " + toH);

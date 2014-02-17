@@ -39,40 +39,19 @@ public class BaseAnimationFocusLayer extends
     private static final boolean TRACK_FPS = true && DEBUG;
     protected static final int OFFSET_X = 0;
     protected static final int OFFSET_Y = 0;
-    private static final int DEFAULT_ANIMATION_DURATION = 2222;
-    private static final float DEFAULT_SCALE_FACOTR = 1.3f;
-
 
     private Grid.GridDrawer mGridDrawer;
-
-    protected Rect mTmpRect = new Rect();
-
-    protected Rect mLastFocusRect = new Rect();
-    protected Rect mLastScaledFocusRect = new Rect();
-    protected Bitmap mLastFocusBitmap = null;
-
-    protected Rect mCurrentFocusRect = new Rect();
-    protected Rect mCurrentScaledFocusRect = new Rect();
-    protected Bitmap mCurrentFocusBitmap = null;
-
-    private Matrix mMatrix;
-    private RectF mTmpRectF;
-
-    /** used for transfer */
-    protected View mFocusRectView;
-    /** used for scale */
-    protected View mLastFocusView;
-    /** used for scale */
-    protected View mCurrentFocusView;
-
-    /** in millisec */
-    protected int mDuration;
-    protected float mScaleFactor;
-    protected boolean mDisableScaleAnimation;
-
     private boolean mFirstFocus = true;
-
     private FPSLoger mFps;
+    
+    /** used for transfer */
+    public View mFocusRectView;
+    /** used for scale */
+    public View mLastFocusView;
+    /** used for scale */
+    public View mCurrentFocusView;
+
+    protected AnimationConfigure mConfigure;
 
     public BaseAnimationFocusLayer(Context context) {
         this(context, null);
@@ -86,10 +65,6 @@ public class BaseAnimationFocusLayer extends
             int defStyle) {
         super(context, attrs, defStyle);
 
-        mDuration = DEFAULT_ANIMATION_DURATION;
-        mScaleFactor = DEFAULT_SCALE_FACOTR;
-        mDisableScaleAnimation = false;
-
         init();
     }
 
@@ -101,11 +76,12 @@ public class BaseAnimationFocusLayer extends
         addView(mLastFocusView);
         addView(mCurrentFocusView);
 
-        mMatrix = new Matrix();
         mFocusRectView = onInflateTranslateAnimationView(inflater);
         addView(mFocusRectView);
 
         setId(Utils.FOCUS_LAYER_ID);
+        
+        mConfigure = new AnimationConfigure();
 
         setBackgroundColor(Color.TRANSPARENT);
         if (DRAW_GRIG) {
@@ -117,22 +93,6 @@ public class BaseAnimationFocusLayer extends
             
             mFps = new FPSLoger(TAG);
         }
-    }
-
-    public void setDuration(int duration) {
-        mDuration = duration;
-    }
-
-    public int getDration() {
-        return mDuration;
-    }
-
-    public void setScaleFactor(float factor) {
-        mScaleFactor = factor;
-    }
-
-    public float getScaleFactor() {
-        return mScaleFactor;
     }
 
     /**
@@ -170,16 +130,6 @@ public class BaseAnimationFocusLayer extends
         }
     }
 
-    protected void offsetAnyViewRectToMyCoord(View view, Rect rect) {
-        View root = view.getRootView();
-        if (root instanceof ViewGroup) {
-            ((ViewGroup) root).offsetDescendantRectToMyCoords(view, rect);
-            ((ViewGroup) root).offsetRectIntoDescendantCoords(this, rect);
-        } else {
-            Log.e(TAG, "view's parent is NOT a ViewGroup.");
-        }
-    }
-
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
@@ -191,56 +141,8 @@ public class BaseAnimationFocusLayer extends
         if (null == focus) {
             return;
         }
-
-        focus.getFocusedRect(mTmpRect);
-        // focus.getDrawingRect(mTmpRect);
-        offsetAnyViewRectToMyCoord(focus, mTmpRect);
-
-        mLastFocusRect = new Rect(mCurrentFocusRect);
-        mCurrentFocusRect = new Rect(mTmpRect);
-
-        int width = focus.getWidth();
-        int height = focus.getHeight();
-        if (width <= 0 || height <= 0) {
-            Log.w(TAG, "invalid w or h. w: " + width + " h: " + height);
-            return;
-        }
-
-        // calculate focus rect.
-        if (!mDisableScaleAnimation) {
-            mMatrix.reset();
-            // adjust rect by scale factor.
-            mTmpRectF = new RectF(mCurrentFocusRect.left, mCurrentFocusRect.top,
-                    mCurrentFocusRect.right, mCurrentFocusRect.bottom);
-            mMatrix.setScale(mScaleFactor, mScaleFactor, mTmpRectF.centerX(), mTmpRectF.centerY());
-            mMatrix.mapRect(mTmpRectF);
-            mCurrentScaledFocusRect = new Rect((int) mTmpRectF.left, (int) mTmpRectF.top,
-                    (int) mTmpRectF.right, (int) mTmpRectF.bottom);
-
-            mMatrix.reset();
-            mTmpRectF = new RectF(mLastFocusRect.left, mLastFocusRect.top,
-                    mLastFocusRect.right, mLastFocusRect.bottom);
-            mMatrix.setScale(mScaleFactor, mScaleFactor, mTmpRectF.centerX(),
-                    mTmpRectF.centerY());
-            mMatrix.mapRect(mTmpRectF);
-            mLastScaledFocusRect = new Rect((int) mTmpRectF.left,
-                    (int) mTmpRectF.top, (int) mTmpRectF.right,
-                    (int) mTmpRectF.bottom);
-        } else {
-            mLastScaledFocusRect = new Rect(mLastFocusRect);
-            mCurrentScaledFocusRect = new Rect(mCurrentFocusRect);
-        }
-        Log.d(TAG, "updateFocusView(). view: " + focus);
-        Log.d(TAG, "mCurrentFocusRect: " + mCurrentFocusRect);
-        Log.d(TAG, "mLastFocusRect: " + mLastFocusRect);
-        Log.d(TAG, "mCurrentScaledFocusRect: " + mCurrentScaledFocusRect);
-        Log.d(TAG, "mLastScaledFocusRect: " + mLastScaledFocusRect);
-
-        // calculate bitmap
-        if (!mDisableScaleAnimation) {
-            mLastFocusBitmap = mCurrentFocusBitmap;
-            mCurrentFocusBitmap = getBitmap(focus);
-        }
+        
+        mConfigure.updateFocusView(this, focus);
 
         if (mFirstFocus) {
             mFirstFocus = false;
@@ -248,37 +150,21 @@ public class BaseAnimationFocusLayer extends
         }
         
         // update view & bitmap
-        if (!mDisableScaleAnimation && mCurrentFocusBitmap != null) {
+        if (!mConfigure.mDisableScaleAnimation && mConfigure.mCurrentFocusBitmap != null) {
             mCurrentFocusView.setBackgroundColor(Color.BLACK);
 //            mCurrentFocusView.setScaleType(ScaleType.FIT_XY);
 //            mCurrentFocusView.setImageBitmap(mCurrentFocusBitmap);
-            mCurrentFocusView.setBackgroundDrawable(new BitmapDrawable(mCurrentFocusBitmap));
+            mCurrentFocusView.setBackgroundDrawable(new BitmapDrawable(mConfigure.mCurrentFocusBitmap));
         }
-        if (!mDisableScaleAnimation && mLastFocusBitmap != null) {
+        if (!mConfigure.mDisableScaleAnimation && mConfigure.mLastFocusBitmap != null) {
             mLastFocusView.setBackgroundColor(Color.BLACK);
 //            mLastFocusView.setImageBitmap(mLastFocusBitmap);
 //            mLastFocusView.setScaleType(ScaleType.FIT_XY);
-            mLastFocusView.setBackgroundDrawable(new BitmapDrawable(mLastFocusBitmap));
+            mLastFocusView.setBackgroundDrawable(new BitmapDrawable(mConfigure.mLastFocusBitmap));
         }
     }
 
-    private Bitmap getBitmap(View focus) {
-        int oldWidth = focus.getWidth();
-        int oldHeight = focus.getHeight();
 
-        Bitmap bitmap = Bitmap.createBitmap(oldWidth, oldHeight, Bitmap.Config.ARGB_8888);
-        focus.draw(new Canvas(bitmap));
-        // bitmap = Bitmap.createScaledBitmap(bitmap,
-        // mCurrentScaledFocusRect.width(), mCurrentScaledFocusRect.height(),
-        // false);
-
-        // return bitmap;
-
-        int w = mCurrentScaledFocusRect.width();
-        int h = mCurrentScaledFocusRect.height();
-        Log.d(TAG, "focus bitmap W: " + w + " H: " + h);
-        return ViewUtil.getBitmapX(focus, w, h);
-    }
 
     private void deubgFocusRect() {
         int width = mFocusRectView.getWidth();
@@ -304,18 +190,11 @@ public class BaseAnimationFocusLayer extends
 
     private void initFocusTarget() {
             // no animation in firstly focus on.
-            mLastFocusRect = new Rect(mCurrentFocusRect);
-            mLastScaledFocusRect = new Rect(mCurrentScaledFocusRect);
-    
-            Log.d(TAG, "first focus: mLastFocusRect: " + mLastFocusRect);
-            Log.d(TAG, "first focus: mCurrentFocusRect: " + mCurrentFocusRect);
-            Log.d(TAG, "first focus: mLastScaledFocusRect: " + mLastScaledFocusRect);
-            Log.d(TAG, "first focus: mCurrentScaledFocusRect: " + mCurrentScaledFocusRect);
             
-            int width = mCurrentScaledFocusRect.width();
-            int height = mCurrentScaledFocusRect.height();
-            int x = mCurrentScaledFocusRect.left;
-            int y = mCurrentScaledFocusRect.top;
+            int width = mConfigure.mCurrentScaledFocusRect.width();
+            int height = mConfigure.mCurrentScaledFocusRect.height();
+            int x = mConfigure.mCurrentScaledFocusRect.left;
+            int y = mConfigure.mCurrentScaledFocusRect.top;
             
             updateViewLayout(mFocusRectView, new AbsoluteLayout.LayoutParams(
                     width,
