@@ -10,6 +10,7 @@ public class Utils {
     
     public static void onFocusChange(View v, boolean hasFocus) {
         if (null == v) {
+            
             return;
         }
         
