@@ -4,8 +4,8 @@ import android.view.View;
 /**
  * 
  * <pre>
-  +--------------focus layer (top layer)--------------------+
-  |                                                         |
+    +--------------focus layer (top layer)--------------------+
+    |                                                         |
   +-+-----------subject layer (bottom layer)----------------+ |
   | |                                                       | |
   | |                                                       | |
@@ -26,6 +26,7 @@ import android.view.View;
   | +-------------------------------------------------------+-+
   |                                                         |
   +---------------------------------------------------------+
+  </pre>
 */
 public interface IFocusAnimationLayer extends View.OnFocusChangeListener{
 }
