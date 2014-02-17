@@ -129,16 +129,16 @@ public class BaseAnimationFocusLayer extends
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
-            updateFocusView(v);
+            onNewFocus(v);
         }
     }
 
-    protected void updateFocusView(View focus) {
+    protected void onNewFocus(View focus) {
         if (null == focus) {
             return;
         }
         
-        mConfigure.updateFocusView(this, focus);
+        mConfigure.onNewFocus(this, focus);
 
         if (mFirstFocus) {
             mFirstFocus = false;

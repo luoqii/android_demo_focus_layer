@@ -55,8 +55,8 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
     }
 
     @Override
-    protected void updateFocusView(View focus) {
-        super.updateFocusView(focus);
+    protected void onNewFocus(View focus) {
+        super.onNewFocus(focus);
 
         doAnimation();
     }

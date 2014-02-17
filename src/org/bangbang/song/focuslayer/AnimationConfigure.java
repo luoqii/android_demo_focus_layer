@@ -65,7 +65,7 @@ public class AnimationConfigure {
         return mScaleFactor;
     }
     
-    protected void updateFocusView(View layer, View focus) {
+    protected void onNewFocus(View layer, View focus) {
         if (null == focus) {
             return;
         }
