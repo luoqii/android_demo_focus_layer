@@ -151,7 +151,7 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
     }
 
     /**
-     * all states are ready.
+     * all states(bitmap, rect... and so on) are ready.
      * 
      * @param canvas
      */
@@ -171,18 +171,16 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
         if (mConfigure.mCurrentFocusBitmap != null) {
             mTmp = mScaleUpRect.toRect();
-            Log.d(TAG, "drawBitmap. rect: " + mTmp);
+//            Log.d(TAG, "drawBitmap. rect: " + mTmp);
             mCanvas.drawBitmap(mConfigure.mCurrentFocusBitmap, 
                     null, mTmp, mPaint);
         }
         if (mConfigure.mLastFocusBitmap != null) {
             mTmp = mScaleDownRect.toRect();
-            Log.d(TAG, "drawBitmap. rect: " + mTmp);
+//            Log.d(TAG, "drawBitmap. rect: " + mTmp);
             mCanvas.drawBitmap(mConfigure.mLastFocusBitmap, 
                     null, mTmp, mPaint);
         }
-
-        mCanvas.drawText("hello", 100, 100, mPaint);
     }
 
     public class MyHandler extends Handler {
