@@ -101,7 +101,7 @@ public class BaseAnimationFocusLayer extends
     protected View onInflateTranslateAnimationView(
             LayoutInflater layoutInflater) {
         View v = new View(getContext());
-        v.setBackgroundResource(R.drawable.search_button_hover);
+        v.setBackgroundResource(mConfigure.mFocusDrawable);
 
         return v;
     }

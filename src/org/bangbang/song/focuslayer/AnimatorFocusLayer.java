@@ -209,20 +209,19 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
 
     @Override
     protected View onInflateScaleAnimationView(LayoutInflater layoutInflater) {
-        View v = new FixedSizeView(getContext());
+        View v = new AnimatableView(getContext());
         return v;
     }
 
     @Override
     protected View onInflateTranslateAnimationView(LayoutInflater layoutInflater) {
-        View v = new FixedSizeView(getContext());
+        View v = new AnimatableView(getContext());
 
         v.setBackgroundResource(R.drawable.search_button_hover);
         return v;
     }
 
     /**
-     * fixed width & height.
      * <p>
      * to incorporate with {@link Animator}, add {@link #setWidth(float)} and
      * {@link #setHeight(float)} method.
@@ -233,25 +232,25 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
      * @see #setHeight(float)
      * @author bysong
      */
-    public static class FixedSizeView extends View
+    public static class AnimatableView extends View
     {
 
         private int mWidth;
         private int mHeight;
 
-        public FixedSizeView(Context context, AttributeSet attrs, int defStyle) {
+        public AnimatableView(Context context, AttributeSet attrs, int defStyle) {
             super(context, attrs, defStyle);
 
             init();
         }
 
-        public FixedSizeView(Context context, AttributeSet attrs) {
+        public AnimatableView(Context context, AttributeSet attrs) {
             super(context, attrs);
 
             init();
         }
 
-        public FixedSizeView(Context context) {
+        public AnimatableView(Context context) {
             super(context);
 
             init();

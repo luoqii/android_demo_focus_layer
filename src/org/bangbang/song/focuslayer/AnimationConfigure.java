@@ -1,6 +1,7 @@
 package org.bangbang.song.focuslayer;
 
 import org.bangbang.song.android.commonlib.ViewUtil;
+import org.bangbang.song.demo.focuslayer.R;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -33,6 +34,7 @@ public class AnimationConfigure {
     
     public Matrix mMatrix;
     public RectF mTmpRectF;
+    public int mFocusDrawable;
     
     /** in millisec */
     public int mDuration;
@@ -45,10 +47,10 @@ public class AnimationConfigure {
         mScaleFactor = DEFAULT_SCALE_FACOTR;
         mDisableScaleAnimation = false;
         mMatrix = new Matrix();
+        
+        mFocusDrawable = R.drawable.search_button_hover;
     }
     
-
-
     public void setDuration(int duration) {
         mDuration = duration;
     }

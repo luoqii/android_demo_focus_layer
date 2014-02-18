@@ -47,7 +47,7 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
     private boolean mAnimationEnd;
     private ValueAnimator mAnimation;
-    private AnimatorableRect mTransalteRect;
+    private AnimatableRect mTransalteRect;
     private Rect mTmp;
     private boolean mRequestAnimation;
     private Drawable mTranslateDrawable;
@@ -88,8 +88,8 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         mPaint.setTypeface(font);
         mFps = new FPSLoger(TAG);
 
-        mTransalteRect = new AnimatorableRect();
-        mTranslateDrawable = getResources().getDrawable(R.drawable.search_button_hover);
+        mTransalteRect = new AnimatableRect();
+        mTranslateDrawable = getResources().getDrawable(mConfigure.mFocusDrawable);
         mWorker = new WorkThread();
         mWorker.start();
     }
@@ -195,16 +195,16 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         }
 
         private void startAnimation() {
-            mAnimation = ValueAnimator.ofObject(new AnimatorableEvaluator(),
-                    new AnimatorableRect[] {
-                            AnimatorableRect.fromRect(mConfigure.mLastScaledFocusRect),
-                            AnimatorableRect.fromRect(mConfigure.mCurrentScaledFocusRect)
+            mAnimation = ValueAnimator.ofObject(new AnimatableEvaluator(),
+                    new AnimatableRect[] {
+                            AnimatableRect.fromRect(mConfigure.mLastScaledFocusRect),
+                            AnimatableRect.fromRect(mConfigure.mCurrentScaledFocusRect)
                     });
             mAnimation.addUpdateListener(new AnimatorUpdateListener() {
 
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    mTransalteRect = (AnimatorableRect) animation.getAnimatedValue();
+                    mTransalteRect = (AnimatableRect) animation.getAnimatedValue();
                     // Log.d(TAG, "onAnimationUpdate. rect: " + mTransalteRect);
                     requestDrawFrame();
                 }
@@ -261,23 +261,23 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         }
     }
 
-    public static class AnimatorableRect {
+    public static class AnimatableRect {
         public int left, top;
         public int right, bottom;
 
-        public AnimatorableRect() {
+        public AnimatableRect() {
             this(0, 0, 0, 0);
         }
 
-        public AnimatorableRect(int left, int top, int right, int bottom) {
+        public AnimatableRect(int left, int top, int right, int bottom) {
             this.left = left;
             this.top = top;
             this.right = right;
             this.bottom = bottom;
         }
 
-        public static AnimatorableRect fromRect(Rect r) {
-            AnimatorableRect rect = new AnimatorableRect(r.left, r.top, r.right, r.bottom);
+        public static AnimatableRect fromRect(Rect r) {
+            AnimatableRect rect = new AnimatableRect(r.left, r.top, r.right, r.bottom);
             return rect;
         }
 
@@ -329,12 +329,12 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         }
     }
 
-    public static class AnimatorableEvaluator implements TypeEvaluator<AnimatorableRect> {
+    public static class AnimatableEvaluator implements TypeEvaluator<AnimatableRect> {
 
         @Override
-        public AnimatorableRect evaluate(float fraction, AnimatorableRect startValue,
-                AnimatorableRect endValue) {
-            return new AnimatorableRect(startValue.left
+        public AnimatableRect evaluate(float fraction, AnimatableRect startValue,
+                AnimatableRect endValue) {
+            return new AnimatableRect(startValue.left
                     + (int) ((endValue.left - startValue.left) * fraction),
                     startValue.top + (int) ((endValue.top - startValue.top) * fraction),
                     startValue.right + (int) ((endValue.right - startValue.right) * fraction),
