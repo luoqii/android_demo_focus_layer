@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
 
-public class MainActivity extends Activity {
+public class FocusLayerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

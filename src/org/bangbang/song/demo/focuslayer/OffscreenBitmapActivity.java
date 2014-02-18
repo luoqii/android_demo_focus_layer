@@ -30,17 +30,13 @@ public class OffscreenBitmapActivity extends Activity {
     }
     
     public void onClick(View view) {
-        int id = 0;
-        switch (view.getId()){
-            case R.id.go1:
-                id = R.id.copy1;
-                break;
-            case R.id.go2:
-                id = R.id.copy2;
-                break;
-            case R.id.go3:
-                id = R.id.copy3;
-                break;
+        int id = view.getId();
+        if (id == R.id.go1) {
+            id = R.id.copy1;
+        } else if (id == R.id.go2) {
+            id = R.id.copy2;
+        } else if (id == R.id.go3) {
+            id = R.id.copy3;
         }
         View copy = findViewById(id);
         int w = mPaste.getWidth();
