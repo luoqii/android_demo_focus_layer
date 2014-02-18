@@ -1,8 +1,10 @@
 package org.bangbang.song.focuslayer;
 
+import org.bangbang.song.android.commonlib.FPSLoger;
 import org.bangbang.song.demo.focuslayer.R;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,6 +17,8 @@ public class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLay
     protected AnimationConfigure mConfigure;
 
     private OnFocusChangeListener mListener;
+
+    private FPSLoger mFPS;
     public FocusViewGroup(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
@@ -36,6 +40,7 @@ public class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLay
     void init() {
         mConfigure = new AnimationConfigure();
         mConfigure.mScaleFactor = 3.0f;
+        mFPS = new FPSLoger(TAG);
         mListener = new OnFocusChangeListener() {
             
             @Override
@@ -77,5 +82,15 @@ public class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLay
         super.addView(child, index, params);
         
         child.setOnFocusChangeListener(mListener);
+    }
+    
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        // TODO Auto-generated method stub
+        super.dispatchDraw(canvas);
+        
+        if (mConfigure.TRACK_FPS) {
+            mFPS.onDraw();
+        }
     }
 }
