@@ -6,6 +6,9 @@ import org.bangbang.song.demo.focuslayer.R;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
@@ -48,6 +51,8 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
     private boolean mAnimationEnd;
     private ValueAnimator mAnimation;
     private AnimatableRect mTransalteRect;
+    private AnimatableRect mScaleUpRect;
+    private AnimatableRect mScaleDownRect;
     private Rect mTmp;
     private boolean mRequestAnimation;
     private Drawable mTranslateDrawable;
@@ -89,6 +94,8 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         mFps = new FPSLoger(TAG);
 
         mTransalteRect = new AnimatableRect();
+        mScaleUpRect = new AnimatableRect();
+        mScaleDownRect = new AnimatableRect();
         mTranslateDrawable = getResources().getDrawable(mConfigure.mFocusDrawable);
         mWorker = new WorkThread();
         mWorker.start();
@@ -149,21 +156,30 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
      * @param canvas
      */
     public void onDrawFrame(Canvas canvas) {
+//        Log.d(TAG, "onDrawFrame()");
         if (mConfigure.TRACK_FPS) {
             mFps.onDraw();
         }
-        Log.d(TAG, "onDrawFrame()");
+        
         canvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
         canvas.drawColor(Color.TRANSPARENT);
 
-        mTmp = new Rect(mTransalteRect.left, mTransalteRect.top, mTransalteRect.right,
-                mTransalteRect.bottom);
-        Log.d(TAG, "drawRect. rect: " + mTmp);
+        mTmp = mTransalteRect.toRect();
+//        Log.d(TAG, "drawRect. rect: " + mTmp);
         mTranslateDrawable.setBounds(mTmp);
         mTranslateDrawable.draw(canvas);
 
-        if (mConfigure.mLastFocusBitmap == null) {
-
+        if (mConfigure.mCurrentFocusBitmap != null) {
+            mTmp = mScaleUpRect.toRect();
+            Log.d(TAG, "drawBitmap. rect: " + mTmp);
+            mCanvas.drawBitmap(mConfigure.mCurrentFocusBitmap, 
+                    null, mTmp, mPaint);
+        }
+        if (mConfigure.mLastFocusBitmap != null) {
+            mTmp = mScaleDownRect.toRect();
+            Log.d(TAG, "drawBitmap. rect: " + mTmp);
+            mCanvas.drawBitmap(mConfigure.mLastFocusBitmap, 
+                    null, mTmp, mPaint);
         }
 
         mCanvas.drawText("hello", 100, 100, mPaint);
@@ -178,7 +194,7 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
                     // Log.d(TAG, "running: " + mAnimation.isRunning() +
                     // " started: " + mAnimation.isStarted());
                     // }
-                    Log.d(TAG, "mAnimationEnd: " + mAnimationEnd);
+//                    Log.d(TAG, "mAnimationEnd: " + mAnimationEnd);
                     if (mRequestAnimation) {
                         mRequestAnimation = false;
                         startAnimation();
@@ -232,9 +248,36 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
                 }
             });
-            mAnimation.setRepeatCount(0);
-            mAnimation.setDuration(mConfigure.mDuration);
-            mAnimation.start();
+
+//            mAnimation.setRepeatCount(0);
+//            mAnimation.setDuration(mConfigure.mDuration);
+//            mAnimation.start();
+            
+            Animator top = ObjectAnimator.ofInt(mScaleUpRect, "top", 
+                    new int[] {mConfigure.mCurrentFocusRect.top, mConfigure.mCurrentScaledFocusRect.top});
+
+            Animator left = ObjectAnimator.ofInt(mScaleUpRect, "left", 
+                    new int[] {mConfigure.mCurrentFocusRect.left, mConfigure.mCurrentScaledFocusRect.left});
+
+            Animator right = ObjectAnimator.ofInt(mScaleUpRect, "right", 
+                    new int[] {mConfigure.mCurrentFocusRect.right, mConfigure.mCurrentScaledFocusRect.right});
+
+            Animator bottom = ObjectAnimator.ofInt(mScaleUpRect, "bottom", 
+                    new int[] {mConfigure.mCurrentFocusRect.bottom, mConfigure.mCurrentScaledFocusRect.bottom});
+            Animator pHoloder = ObjectAnimator.ofPropertyValuesHolder(mScaleDownRect, new PropertyValuesHolder[] {
+                    PropertyValuesHolder.ofInt("top", new int[] {mConfigure.mLastScaledFocusRect.top, 
+                            mConfigure.mLastFocusRect.top}),
+                    PropertyValuesHolder.ofInt("left", new int[] {mConfigure.mLastScaledFocusRect.left, 
+                            mConfigure.mLastFocusRect.left}),
+                    PropertyValuesHolder.ofInt("right", new int[] {mConfigure.mLastScaledFocusRect.right, 
+                            mConfigure.mLastFocusRect.right}),
+                   PropertyValuesHolder.ofInt("bottom", new int[] {mConfigure.mLastScaledFocusRect.bottom, 
+                           mConfigure.mLastFocusRect.bottom}),
+            });
+            AnimatorSet set = new AnimatorSet();
+            set.setDuration(mConfigure.mDuration);
+            set.playTogether(new Animator[] {mAnimation, left, top, right, bottom, pHoloder});
+            set.start();
             Log.d(TAG, "start animtion");
         }
     }
@@ -262,6 +305,7 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
     }
 
     public static class AnimatableRect {
+        private static final boolean DEBUG = false;
         public int left, top;
         public int right, bottom;
 
@@ -280,6 +324,16 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
             AnimatableRect rect = new AnimatableRect(r.left, r.top, r.right, r.bottom);
             return rect;
         }
+        
+        public Rect toRect() {
+            Rect r = new Rect();
+            r.left = this.left;
+            r.top = this.top;
+            r.right = this.right;
+            r.bottom = this.bottom;
+            
+            return r;
+        }
 
         public int getLeft() {
             return left;
@@ -287,6 +341,9 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
         public void setLeft(int left) {
             this.left = left;
+            if (DEBUG) {
+                Log.d(TAG, "setLeft. left: " + left);
+            }
         }
 
         public int getTop() {
@@ -295,6 +352,9 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
         public void setTop(int top) {
             this.top = top;
+            if (DEBUG) {
+                Log.d(TAG, "setTop. top: " + top);
+            }
         }
 
         public int getRight() {
@@ -303,6 +363,9 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
         public void setRight(int right) {
             this.right = right;
+            if (DEBUG) {
+                Log.d(TAG, "setRight. right: " + right);
+            }
         }
 
         public int getBottom() {
@@ -311,6 +374,9 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
         public void setBottom(int bottom) {
             this.bottom = bottom;
+            if (DEBUG) {
+                Log.d(TAG, "setBottom. bottom: " + bottom);
+            }
         }
 
         @Override
