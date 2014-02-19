@@ -10,15 +10,22 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsoluteLayout;
 
-public class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLayer {
+/**
+ * by adjusting view's Z-order(index), to animate. 
+ * but animating can only draw in parent's bound.
+ * 
+ * @author bysong
+ *
+ */
+public abstract class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLayer {
     private static final String TAG = FocusViewGroup.class.getSimpleName();
     
     public static final int ID_RECT = R.id.paste;
     protected AnimationConfigure mConfigure;
-
     private OnFocusChangeListener mListener;
-
     private FPSLoger mFPS;
+
+    protected Rect mTmpRect;
     public FocusViewGroup(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
@@ -39,8 +46,10 @@ public class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLay
     
     void init() {
         mConfigure = new AnimationConfigure();
-        mConfigure.mScaleFactor = 3.0f;
+        mConfigure.mScaleFactor = 1.2f;
+        mConfigure.mDuration = 200;
         mFPS = new FPSLoger(TAG);
+        mTmpRect = new Rect();
         mListener = new OnFocusChangeListener() {
             
             @Override
@@ -62,19 +71,16 @@ public class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLay
                 v.setTag(ID_RECT, new Rect(v.getLeft(), v.getTop(),
                         v.getWidth() + v.getLeft(), v.getTop() + v.getHeight()));
             }
+            v.bringToFront();
             doScalUp(v);
         } else {
             doScalDown(v);
         }
     }
 
-    protected void doScalDown(View v) {
-        
-    }
+    protected abstract void doScalDown(View v);
 
-    protected void doScalUp(View v) {
-        v.bringToFront();
-    }
+    protected abstract void doScalUp(View v);
     
     @Override
     public void addView(View child, int index, android.view.ViewGroup.LayoutParams params) {

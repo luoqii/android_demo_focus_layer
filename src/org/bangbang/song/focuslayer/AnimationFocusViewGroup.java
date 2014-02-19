@@ -30,7 +30,6 @@ public class AnimationFocusViewGroup extends FocusViewGroup {
     
     @Override
     protected void doScalDown(View v) {
-        super.doScalDown(v);
         
         Rect r = (Rect) v.getTag(ID_RECT);
         if (null == r) {
@@ -40,7 +39,8 @@ public class AnimationFocusViewGroup extends FocusViewGroup {
         updateParam(v, r);
         
         Rect rect = r;
-        Rect scaledRect = mConfigure.mLastScaledFocusRect;
+        v.getDrawingRect(mTmpRect);
+        Rect scaledRect = mTmpRect;
         
         float fromX = (float) scaledRect.width() / rect.width();
         float toX = 1;
@@ -61,7 +61,6 @@ public class AnimationFocusViewGroup extends FocusViewGroup {
     
     @Override
     protected void doScalUp(View v) {
-        super.doScalUp(v);
         
         Rect rect = mConfigure.mCurrentScaledFocusRect;
         updateParam(v, rect);

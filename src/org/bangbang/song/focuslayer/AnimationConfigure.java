@@ -13,7 +13,7 @@ import android.view.View;
 
 public class AnimationConfigure {
     private static final String TAG = AnimationConfigure.class.getSimpleName();
-    private static final int DEFAULT_ANIMATION_DURATION = 3220;
+    private static final int DEFAULT_ANIMATION_DURATION = 322;
     private static final float DEFAULT_SCALE_FACOTR = 1.3f;
 
     public static final boolean DEBUG = true;
