@@ -11,19 +11,19 @@ import android.view.animation.ScaleAnimation;
 import android.widget.AbsoluteLayout;
 import android.widget.AbsoluteLayout.LayoutParams;
 
-public class AnimationFocusViewGroup extends FocusViewGroup {
-    private static final String TAG = AnimationFocusViewGroup.class.getSimpleName();
-    public AnimationFocusViewGroup(Context context, AttributeSet attrs, int defStyle) {
+public class AnimationFocusLayout extends FocusLayout {
+    private static final String TAG = AnimationFocusLayout.class.getSimpleName();
+    public AnimationFocusLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
     }
 
-    public AnimationFocusViewGroup(Context context, AttributeSet attrs) {
+    public AnimationFocusLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
     }
 
-    public AnimationFocusViewGroup(Context context) {
+    public AnimationFocusLayout(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
     }

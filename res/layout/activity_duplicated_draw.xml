@@ -8,8 +8,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:ellipsize="marquee"
-        android:singleLine="true"
         android:marqueeRepeatLimit="1"
+        android:singleLine="true"
         android:visibility="gone" />
 
     <view
@@ -19,7 +19,6 @@
         android:layout_x="50dp"
         android:layout_y="50dp"
         class="org.bangbang.song.demo.focuslayer.DuplicatedDrawActivity$MySource"
-
         android:text="string/hello_worldbsdfasdfdsafadsfadsfasdfasf" />
 
     <view

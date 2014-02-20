@@ -17,8 +17,8 @@ import android.widget.AbsoluteLayout;
  * @author bysong
  *
  */
-public abstract class FocusViewGroup extends AbsoluteLayout implements IFocusAnimationLayer {
-    private static final String TAG = FocusViewGroup.class.getSimpleName();
+public abstract class FocusLayout extends AbsoluteLayout implements IFocusAnimationLayer {
+    private static final String TAG = FocusLayout.class.getSimpleName();
     
     public static final int ID_RECT = R.id.paste;
     protected AnimationConfigure mConfigure;
@@ -26,19 +26,19 @@ public abstract class FocusViewGroup extends AbsoluteLayout implements IFocusAni
     private FPSLoger mFPS;
 
     protected Rect mTmpRect;
-    public FocusViewGroup(Context context, AttributeSet attrs, int defStyle) {
+    public FocusLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
         init();
     }
 
-    public FocusViewGroup(Context context, AttributeSet attrs) {
+    public FocusLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         
         init();
     }
 
-    public FocusViewGroup(Context context) {
+    public FocusLayout(Context context) {
         super(context);
         
         init();
@@ -54,7 +54,7 @@ public abstract class FocusViewGroup extends AbsoluteLayout implements IFocusAni
             
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                FocusViewGroup.this.onFocusChange(v, hasFocus);
+                FocusLayout.this.onFocusChange(v, hasFocus);
             }
         };
     }

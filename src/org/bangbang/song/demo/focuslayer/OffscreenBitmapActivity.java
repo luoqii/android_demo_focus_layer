@@ -24,7 +24,7 @@ public class OffscreenBitmapActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_offscreen);
+        setContentView(R.layout.activity_offscreen_bitmap);
         
         mPaste = findViewById(R.id.paste);
     }
