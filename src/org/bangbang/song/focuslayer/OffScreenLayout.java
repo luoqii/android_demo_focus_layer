@@ -49,7 +49,6 @@ public class OffScreenLayout extends FrameLayout {
     protected void onAttachedToWindow() {
         // TODO Auto-generated method stub
         super.onAttachedToWindow();
-        
 
         ((ViewGroup)getParent().getParent()).setClipChildren(false);
         ((ViewGroup)getParent().getParent()).setClipToPadding(false);
