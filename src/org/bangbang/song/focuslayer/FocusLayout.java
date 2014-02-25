@@ -46,7 +46,7 @@ public abstract class FocusLayout extends AbsoluteLayout implements IFocusAnimat
     
     void init() {
         mConfigure = new AnimationConfigure();
-        mConfigure.mScaleFactor = 1.2f;
+        mConfigure.mScaleFactor = 1.1f;
         mConfigure.mDuration = 200;
         mFPS = new FPSLoger(TAG);
         mTmpRect = new Rect();

@@ -1,5 +1,6 @@
 package org.bangbang.song.focuslayer;
 
+import android.R.animator;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -9,8 +10,13 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.AbsoluteLayout;
-import android.widget.AbsoluteLayout.LayoutParams;
 
+/**
+ * 
+ * impl by {@link animator}
+ * @author bysong
+ *
+ */
 public class AnimationFocusLayout extends FocusLayout {
     private static final String TAG = AnimationFocusLayout.class.getSimpleName();
     public AnimationFocusLayout(Context context, AttributeSet attrs, int defStyle) {

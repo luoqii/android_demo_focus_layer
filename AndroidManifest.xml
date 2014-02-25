@@ -14,57 +14,75 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.bangbang.song.demo.focuslayer.FocusLayerActivity"
-            android:label="FocusLayerActivity" >
+            android:name="org.bangbang.song.demo.focuslayer.MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.bangbang.song.demo.focuslayer.FocusLayerActivity"
+            android:label="focuslayer/FocusLayerActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.OffscreenBitmapActivity"
-            android:label="OffscreenBitmapActivity" >
+            android:label="focuslayer/OffscreenBitmapActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.OffscreenLayoutActivity"
-            android:label="OffscreenLayoutActivity" >
+            android:label="focuslayer/OffscreenLayoutActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.DuplicatedDrawActivity"
-            android:label="DuplicatedDrawActivity" >
+            android:label="focuslayer/DuplicatedDrawActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.FocusViewActivity"
-            android:label="FocusViewActivity" >
+            android:label="focuslayer/FocusViewActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.ClipChildrenActivity"
-            android:label="ClipChildrenActivity" >
+            android:label="focuslayer/ClipChildrenActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.bangbang.song.demo.focuslayer.ListViewAnimationAcitivity"
+            android:label="focuslayer/ListViewAnimationAcitivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
     </application>
