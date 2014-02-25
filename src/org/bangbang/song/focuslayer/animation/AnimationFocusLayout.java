@@ -1,6 +1,7 @@
-package org.bangbang.song.focuslayer;
+package org.bangbang.song.focuslayer.animation;
 
-import android.R.animator;
+import org.bangbang.song.focuslayer.BaseFocusLayout;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -9,16 +10,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.AbsoluteLayout;
 
 /**
  * 
- * impl by {@link animator}
+ * impl by {@link Animation}
  * @author bysong
  *
  */
-public class AnimationFocusLayout extends FocusLayout {
-    private static final String TAG = AnimationFocusLayout.class.getSimpleName();
+public class AnimationFocusLayout extends BaseFocusLayout {
+    static final String TAG = AnimationFocusLayout.class.getSimpleName();
     public AnimationFocusLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
@@ -36,17 +36,18 @@ public class AnimationFocusLayout extends FocusLayout {
     
     @Override
     protected void doScalDown(View v) {
+        super.doScalDown(v);
         
-        Rect r = (Rect) v.getTag(ID_RECT);
+        Rect r = (Rect) v.getTag(ID_ORIGINAL_BOUND);
         if (null == r) {
             return;
         }
         
-        updateParam(v, r);
+        updatePosition(v, r);
         
         Rect rect = r;
         v.getDrawingRect(mTmpRect);
-        Rect scaledRect = mTmpRect;
+        Rect scaledRect = mConfigure.mLastScaledFocusRect;
         
         float fromX = (float) scaledRect.width() / rect.width();
         float toX = 1;
@@ -67,13 +68,16 @@ public class AnimationFocusLayout extends FocusLayout {
     
     @Override
     protected void doScalUp(View v) {
+        super.doScalUp(v);
         
+        // step 1 update new position
         Rect rect = mConfigure.mCurrentScaledFocusRect;
-        updateParam(v, rect);
+        updatePosition(v, rect);
         
-        rect = (Rect) v.getTag(ID_RECT);
+        rect = (Rect) v.getTag(ID_ORIGINAL_BOUND);
         Rect scaledRect = mConfigure.mCurrentScaledFocusRect;
         
+        // step 2 calculate transformation.
         float fromX = (float) rect.width() / scaledRect.width();
         float toX = 1;
         float fromY = (float) rect.height() / scaledRect.height();
@@ -92,22 +96,6 @@ public class AnimationFocusLayout extends FocusLayout {
         s.setDuration(mConfigure.mDuration);
         s.setInterpolator(new LinearInterpolator());
         v.startAnimation(s);
-    }
-
-    private void updateParam(View v, Rect r) {
-        LayoutParams params = null;
-
-        int width = r.width();
-        int height = r.height();
-        int x = r.left;
-        int y = r.top;
-        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
-            Log.d(TAG, "new layout params x: " + x + " y: " + y + " width: " + width + " height: "
-                    + height);
-        }
-        params = new AbsoluteLayout.LayoutParams(width, height, x, y);
-        updateViewLayout(v, params);
-    }
-    
+    }    
     
 }

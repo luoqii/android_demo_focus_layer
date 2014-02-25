@@ -6,7 +6,7 @@
     <view
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.bangbang.song.focuslayer.AnimationFocusLayout" >
+        class="org.bangbang.song.focuslayer.animation.AnimationFocusLayout" >
 
         <Button
             android:id="@+id/button1"

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsoluteLayout;
 
@@ -17,28 +18,29 @@ import android.widget.AbsoluteLayout;
  * @author bysong
  *
  */
-public abstract class FocusLayout extends AbsoluteLayout implements IFocusAnimationLayer {
-    private static final String TAG = FocusLayout.class.getSimpleName();
+public class BaseFocusLayout extends AbsoluteLayout implements IFocusAnimationLayer {
+    private static final String TAG = BaseFocusLayout.class.getSimpleName();
     
-    public static final int ID_RECT = R.id.paste;
+    protected static final boolean DEBUG = true;
+    public static final int ID_ORIGINAL_BOUND = R.id.paste;
     protected AnimationConfigure mConfigure;
     private OnFocusChangeListener mListener;
     private FPSLoger mFPS;
 
     protected Rect mTmpRect;
-    public FocusLayout(Context context, AttributeSet attrs, int defStyle) {
+    public BaseFocusLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
         init();
     }
 
-    public FocusLayout(Context context, AttributeSet attrs) {
+    public BaseFocusLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         
         init();
     }
 
-    public FocusLayout(Context context) {
+    public BaseFocusLayout(Context context) {
         super(context);
         
         init();
@@ -46,15 +48,15 @@ public abstract class FocusLayout extends AbsoluteLayout implements IFocusAnimat
     
     void init() {
         mConfigure = new AnimationConfigure();
-        mConfigure.mScaleFactor = 1.1f;
-        mConfigure.mDuration = 200;
+        mConfigure.mScaleFactor = 3.1f;
+        mConfigure.mDuration = 2000;
         mFPS = new FPSLoger(TAG);
         mTmpRect = new Rect();
         mListener = new OnFocusChangeListener() {
             
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                FocusLayout.this.onFocusChange(v, hasFocus);
+                BaseFocusLayout.this.onFocusChange(v, hasFocus);
             }
         };
     }
@@ -67,8 +69,8 @@ public abstract class FocusLayout extends AbsoluteLayout implements IFocusAnimat
         
         if (hasFocus) {
             mConfigure.onNewFocus(this, v);
-            if (v.getTag(ID_RECT)  == null) {
-                v.setTag(ID_RECT, new Rect(v.getLeft(), v.getTop(),
+            if (v.getTag(ID_ORIGINAL_BOUND)  == null) {
+                v.setTag(ID_ORIGINAL_BOUND, new Rect(v.getLeft(), v.getTop(),
                         v.getWidth() + v.getLeft(), v.getTop() + v.getHeight()));
             }
             v.bringToFront();
@@ -78,9 +80,24 @@ public abstract class FocusLayout extends AbsoluteLayout implements IFocusAnimat
         }
     }
 
-    protected abstract void doScalDown(View v);
+    @Override
+    public void onFocusSessionEnd(View lastFocus) {
+        mConfigure.onFocusSessionEnd(lastFocus);
+        
+        doScalDown(lastFocus);
+    }
 
-    protected abstract void doScalUp(View v);
+    protected void doScalDown(View v) {
+        if (DEBUG) {
+            Log.d(TAG, "doScalDown. v: " + v);
+        }
+    }
+
+    protected void doScalUp(View v) {
+        if (DEBUG) {
+            Log.d(TAG, "doScalUp. v: " + v);
+        }
+    }
     
     @Override
     public void addView(View child, int index, android.view.ViewGroup.LayoutParams params) {
@@ -98,5 +115,25 @@ public abstract class FocusLayout extends AbsoluteLayout implements IFocusAnimat
         if (mConfigure.TRACK_FPS) {
             mFPS.onDraw();
         }
+    }
+
+    protected void updatePosition(View child, Rect bound) {
+        if (mConfigure.DEBUG_TRANSFER_ANIMATION) {
+            Log.d(TAG, "new layout params left: " + bound.left + " top: " + bound.top 
+                    + " width: " + bound.width() + " height: " + bound.height());
+        }
+        
+        updatePosition(this, child, bound);
+    }
+    
+    public static void updatePosition(AbsoluteLayout parent, View child, Rect bound) {
+        LayoutParams params = null;
+        
+        int width = bound.width();
+        int height = bound.height();
+        int x = bound.left;
+        int y = bound.top;
+        params = new AbsoluteLayout.LayoutParams(width, height, x, y);
+        parent.updateViewLayout(child, params);
     }
 }

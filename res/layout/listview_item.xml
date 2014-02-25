@@ -7,17 +7,18 @@
     android:orientation="vertical" >
 
     <view
-        class="org.bangbang.song.demo.focuslayer.ListViewAnimationAcitivity$MyLayout"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        class="org.bangbang.song.demo.focuslayer.ListViewAnimationAcitivity$MyLayout"
         android:clipChildren="false"
         android:clipToPadding="false" >
 
         <view
             android:id="@+id/textView"
             android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_x="40dp"
+            android:layout_height="60dp"
+            android:layout_x="340dp"
             android:layout_y="8dp"
             class="org.bangbang.song.demo.focuslayer.ListViewAnimationAcitivity$MyButton"
             android:text="TextView" />

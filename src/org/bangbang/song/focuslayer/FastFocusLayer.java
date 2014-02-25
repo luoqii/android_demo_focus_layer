@@ -183,6 +183,11 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         }
     }
 
+    @Override
+    public void onFocusSessionEnd(View lastFocus) {
+        mConfigure.onFocusSessionEnd(lastFocus);
+    }
+
     public class MyHandler extends Handler {
         public void handleMessage(Message msg) {
             try {

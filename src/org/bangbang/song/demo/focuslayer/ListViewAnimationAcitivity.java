@@ -1,18 +1,23 @@
 package org.bangbang.song.demo.focuslayer;
 
-import org.bangbang.song.focuslayer.AnimationFocusLayout;
+import org.bangbang.song.focuslayer.BaseFocusLayout;
+import org.bangbang.song.focuslayer.animation.AnimationFocusLayout;
+import org.bangbang.song.focuslayer.animator.AnimatorFocusLayout;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,13 +54,22 @@ public class ListViewAnimationAcitivity extends Activity {
         
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
+            Log.d(TAG, "getView. position: " + position 
+                    + " convertView: " + convertView);
 //            return super.getView(position, convertView, parent);
             
             if (convertView == null) {
                 convertView = View.inflate(getApplicationContext(), R.layout.listview_item, null);
             }
-            ((TextView)convertView.findViewById(R.id.textView)).setText(getItem(position));
+            TextView title = ((TextView)convertView.findViewById(R.id.textView));
+            title.setText(getItem(position));
+            AbsoluteLayout g = (AbsoluteLayout) convertView.findViewById(R.id.container);
+            // restore original x,y,w,h
+            if (title.getTag(BaseFocusLayout.ID_ORIGINAL_BOUND) != null) {
+//                Log.d(TAG, "restore original position.");
+                Rect r = (Rect) title.getTag(BaseFocusLayout.ID_ORIGINAL_BOUND);
+                BaseFocusLayout.updatePosition(g, title, r);
+            }
             
             return convertView;
         }
@@ -71,7 +85,7 @@ public class ListViewAnimationAcitivity extends Activity {
         public MyListView(Context context, AttributeSet attrs) {
             super(context, attrs);
             
-            
+//            setSmoothScrollbarEnabled(enabled)
             setChildrenDrawingOrderEnabled(true);
         }
 
@@ -98,9 +112,20 @@ public class ListViewAnimationAcitivity extends Activity {
             return order;
         }
         
+        @Override
+        protected void layoutChildren() {
+            // TODO Auto-generated method stub
+            super.layoutChildren();
+            
+            Log.d(TAG, "layoutChildren");
+        }
+        
     }
     
-    public static class MyLayout extends AnimationFocusLayout {
+    public static class MyLayout extends 
+//    AnimationFocusLayout 
+    AnimatorFocusLayout
+    {
 
         public MyLayout(Context context, AttributeSet attrs, int defStyle) {
             super(context, attrs, defStyle);
@@ -121,9 +146,19 @@ public class ListViewAnimationAcitivity extends Activity {
         public void setSelected(boolean selected) {
             // TODO Auto-generated method stub
             super.setSelected(selected);
-            Log.d(TAG, "setSelected. selected: " + selected  );;
+            Log.d(TAG, "setSelected. selected: " + selected);
+            
+            if (selected) {
+                onFocusChange(getChildAt(0), selected);
+            } else {
+//                View v = new View(getContext());
+//                onFocusChange(v, true);
+                onFocusSessionEnd(getChildAt(0));
+            }
+
+//          onFocusChange(getChildAt(0), true);
         }
-        
+            
         @Override
         public void dispatchSetSelected(boolean selected) {
             // TODO Auto-generated method stub
@@ -154,13 +189,19 @@ public class ListViewAnimationAcitivity extends Activity {
         }
         
         @Override
+        public void setTranslationX(float translationX) {
+            // TODO Auto-generated method stub
+            super.setTranslationX(translationX);
+        }
+        
+        @Override
         public void draw(Canvas canvas) {
             // TODO Auto-generated method stub
             super.draw(canvas);
             
             if (isSelected())  {
-                RectF r = new RectF(2, 2, 180, 180);
-                canvas.drawRect(r, mPaint);
+                RectF r = new RectF(8, 8, this.getWidth(), this.getHeight());
+//                canvas.drawRect(r, mPaint);
             }
         }
     }

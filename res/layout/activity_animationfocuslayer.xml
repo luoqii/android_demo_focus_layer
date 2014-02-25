@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FocusLayerActivity" >
+    android:id="@+id/content"
+    tools:context=".AnimationFocusLayerActivity" >
 
     <TextView
         android:id="@+id/anchor"

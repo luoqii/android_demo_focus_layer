@@ -110,23 +110,56 @@ public class AnimationConfigure {
             mLastScaledFocusRect = new Rect(mLastFocusRect);
             mCurrentScaledFocusRect = new Rect(mCurrentFocusRect);
         }
-        Log.d(TAG, "updateFocusView(). view: " + focus);
-        Log.d(TAG, "mCurrentFocusRect: " + mCurrentFocusRect);
-        Log.d(TAG, "mLastFocusRect: " + mLastFocusRect);
-        Log.d(TAG, "mCurrentScaledFocusRect: " + mCurrentScaledFocusRect);
-        Log.d(TAG, "mLastScaledFocusRect: " + mLastScaledFocusRect);
+        dumpRect(focus);
         
         if (mFirstFocus) {
             mFirstFocus = false;
             initFocusTarget();
         }
 
-        // calculate bitmap
-        if (!mDisableScaleAnimation) {
-            mLastFocusBitmap = mCurrentFocusBitmap;
-            mCurrentFocusBitmap = getBitmap(focus);
+        updateBitmap(focus);
+    }
+
+    private void dumpRect(View focus) {
+        if (DEBUG) { 
+            Log.d(TAG, "updateFocusView(). view: " + focus);
+            Log.d(TAG, "mCurrentFocusRect: " + mCurrentFocusRect);
+            Log.d(TAG, "mCurrentScaledFocusRect: " + mCurrentScaledFocusRect);
+            Log.d(TAG, "mLastFocusRect: " + mLastFocusRect);
+            Log.d(TAG, "mLastScaledFocusRect: " + mLastScaledFocusRect);
         }
     }
+
+    private void updateBitmap(View focus) {
+        // calculate bitmap
+        if (!mDisableScaleAnimation) {
+            // recycle unused bitmap.
+            // do we need this??? GC it automatically??? 
+            if (null != mLastFocusBitmap) {
+                mLastFocusBitmap.recycle();
+            }
+            
+            mLastFocusBitmap = mCurrentFocusBitmap;
+            if (null != focus) {
+                mCurrentFocusBitmap = getBitmap(focus);
+            }
+        }
+    }
+    
+    protected void onFocusSessionEnd(View lastFocus) {
+        if (DEBUG) {
+            Log.d(TAG, "onFocusSessionEnd.");
+        }
+        mLastFocusRect = new Rect(mCurrentFocusRect);
+        mLastScaledFocusRect = new Rect(mCurrentScaledFocusRect);
+        updateBitmap(null);
+        
+        mCurrentFocusRect.setEmpty();
+        mCurrentScaledFocusRect.setEmpty();
+
+        dumpRect(lastFocus);
+    }
+    
     
     private Bitmap getBitmap(View focus) {
         int oldWidth = focus.getWidth();
@@ -150,11 +183,13 @@ public class AnimationConfigure {
         // no animation in firstly focus on.
         mLastFocusRect = new Rect(mCurrentFocusRect);
         mLastScaledFocusRect = new Rect(mCurrentScaledFocusRect);
+        //        mLastFocusRect.setEmpty();
+        //        mLastScaledFocusRect.setEmpty();
 
-        Log.d(TAG, "first focus: mLastFocusRect: " + mLastFocusRect);
         Log.d(TAG, "first focus: mCurrentFocusRect: " + mCurrentFocusRect);
-        Log.d(TAG, "first focus: mLastScaledFocusRect: " + mLastScaledFocusRect);
         Log.d(TAG, "first focus: mCurrentScaledFocusRect: " + mCurrentScaledFocusRect);
+        Log.d(TAG, "first focus: mLastFocusRect: " + mLastFocusRect);
+        Log.d(TAG, "first focus: mLastScaledFocusRect: " + mLastScaledFocusRect);
     }
     
 }

@@ -29,4 +29,5 @@ import android.view.View;
   </pre>
 */
 public interface IFocusAnimationLayer extends View.OnFocusChangeListener{
+    public void onFocusSessionEnd(View lastFocus);
 }

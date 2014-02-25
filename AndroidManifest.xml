@@ -23,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.bangbang.song.demo.focuslayer.FocusLayerActivity"
-            android:label="focuslayer/FocusLayerActivity" >
+            android:name="org.bangbang.song.demo.focuslayer.AnimationFocusLayerActivity"
+            android:label="Focuslayer/AnimationFocusLayerActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.OffscreenBitmapActivity"
-            android:label="focuslayer/OffscreenBitmapActivity" >
+            android:label="Focuslayer/OffscreenBitmapActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.OffscreenLayoutActivity"
-            android:label="focuslayer/OffscreenLayoutActivity" >
+            android:label="Focuslayer/OffscreenLayoutActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,7 +51,7 @@
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.DuplicatedDrawActivity"
-            android:label="focuslayer/DuplicatedDrawActivity" >
+            android:label="Focuslayer/DuplicatedDrawActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,8 +59,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.bangbang.song.demo.focuslayer.FocusViewActivity"
-            android:label="focuslayer/FocusViewActivity" >
+            android:name="org.bangbang.song.demo.focuslayer.AnimationFocusLayoutActivity"
+            android:label="Focuslayer/AnimationFocusLayoutActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.bangbang.song.demo.focuslayer.FastFocusLayerActivity"
+            android:label="Focuslayer/FastFocusLayerActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.bangbang.song.demo.focuslayer.AnimatorFocusLayerActivity"
+            android:label="Focuslayer/AnimatorFocusLayerActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.bangbang.song.demo.focuslayer.AnimatorFocusLayoutActivity"
+            android:label="Focuslayer/AnimatorFocusLayoutActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,7 +96,7 @@
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.ClipChildrenActivity"
-            android:label="focuslayer/ClipChildrenActivity" >
+            android:label="Focuslayer/ClipChildrenActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -78,7 +105,7 @@
         </activity>
         <activity
             android:name="org.bangbang.song.demo.focuslayer.ListViewAnimationAcitivity"
-            android:label="focuslayer/ListViewAnimationAcitivity" >
+            android:label="Focuslayer/ListViewAnimationAcitivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

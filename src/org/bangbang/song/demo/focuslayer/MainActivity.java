@@ -7,6 +7,6 @@ public class MainActivity extends BaseApiDemo {
 
     @Override
     protected String getInitPathPrefix() {
-        return "focuslayer";
+        return "Focuslayer";
     }
 }

@@ -1,7 +1,8 @@
 
-package org.bangbang.song.focuslayer;
+package org.bangbang.song.focuslayer.animator;
 
 import org.bangbang.song.demo.focuslayer.R;
+import org.bangbang.song.focuslayer.BaseAnimationFocusLayer;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -232,7 +233,7 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
      * @see #setHeight(float)
      * @author bysong
      */
-    public static class AnimatableView extends View
+    public static class AnimatableView extends View implements IAnimatableView
     {
 
         private int mWidth;
@@ -274,6 +275,10 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             setMeasuredDimension(measuredWidth, measuredHeight);
         }
 
+        /* (non-Javadoc)
+         * @see org.bangbang.song.focuslayer.animator.IAnimatableView#setWidth(float)
+         */
+        @Override
         public void setWidth(float w) {
             // Log.d(TAG, "setWidth(). w: " + w);
             mWidth = (int) w;
@@ -283,6 +288,10 @@ public class AnimatorFocusLayer extends BaseAnimationFocusLayer implements Anima
             invalidate();
         }
 
+        /* (non-Javadoc)
+         * @see org.bangbang.song.focuslayer.animator.IAnimatableView#setHeight(float)
+         */
+        @Override
         public void setHeight(float h) {
             // Log.d(TAG, "setHeight(). h: " + h);
             mHeight = (int) h;

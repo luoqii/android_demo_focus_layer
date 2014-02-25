@@ -67,6 +67,8 @@ public class BaseAnimationFocusLayer extends
     private void init() {
         LayoutInflater inflater = ((LayoutInflater) getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE));
+        
+        mConfigure = new AnimationConfigure();
         mLastFocusView = onInflateScaleAnimationView(inflater);
         mCurrentFocusView = onInflateScaleAnimationView(inflater);
         addView(mLastFocusView);
@@ -76,8 +78,6 @@ public class BaseAnimationFocusLayer extends
         addView(mFocusRectView);
 
         setId(Utils.FOCUS_LAYER_ID);
-        
-        mConfigure = new AnimationConfigure();
 
         setBackgroundColor(Color.TRANSPARENT);
         if (mConfigure.DRAW_GRIG) {
@@ -211,6 +211,11 @@ public class BaseAnimationFocusLayer extends
     //              y
     //              ));
         }
+
+    @Override
+    public void onFocusSessionEnd(View lastFocus) {
+        mConfigure.onFocusSessionEnd(lastFocus);
+    }
 
 
 }

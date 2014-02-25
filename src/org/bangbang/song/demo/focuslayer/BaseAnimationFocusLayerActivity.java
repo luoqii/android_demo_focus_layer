@@ -7,14 +7,23 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
+import android.widget.RelativeLayout;
 
-public class FocusLayerActivity extends Activity {
+public abstract class BaseAnimationFocusLayerActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_animationfocuslayer);
+        
+        ViewGroup g = (ViewGroup) findViewById(R.id.content);
+        LayoutParams params = new RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.FILL_PARENT,
+                android.widget.RelativeLayout.LayoutParams.FILL_PARENT);
+
+        g.addView(getFocusLayer(), params);
         
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
             
@@ -25,6 +34,8 @@ public class FocusLayerActivity extends Activity {
             }
         });
     }
+
+    protected abstract View getFocusLayer();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

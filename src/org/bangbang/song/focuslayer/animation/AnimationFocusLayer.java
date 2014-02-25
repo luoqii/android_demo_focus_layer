@@ -1,5 +1,7 @@
 
-package org.bangbang.song.focuslayer;
+package org.bangbang.song.focuslayer.animation;
+
+import org.bangbang.song.focuslayer.BaseAnimationFocusLayer;
 
 import android.content.Context;
 import android.graphics.Rect;
