@@ -1,7 +1,6 @@
 android_demo_focus_layer
 ========================
 
-require android project library at https://github.com/luoqii/android_common_lib
 
 原理
 ========================
@@ -18,4 +17,7 @@ FEATURE
 2) 如果动画过程中Bitmap需要频烦更新（如TextView的marquee效果），这个方案
 可能不适用
 
+how to build
+========================
+require android project library [android common lib](https://github.com/luoqii/android_common_lib)
 

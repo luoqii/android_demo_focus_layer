@@ -14,6 +14,15 @@ import android.widget.AbsoluteLayout;
 /**
  * by adjusting view's Z-order(index), to animate. 
  * but animating can only draw in parent's bound.
+ * <p>
+ * 
+ * z-order(child index) independent layout:
+ * <p>
+ * <ul>
+ * <li>1) AbsoluteLayout
+ * <li>2) FrameLayout
+ * <li>3) all ViewGroup which only have ONE child.
+ * </ul>
  * 
  * @author bysong
  *
