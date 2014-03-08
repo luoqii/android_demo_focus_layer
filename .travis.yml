@@ -32,7 +32,8 @@ install:
     - chmod a+x $LIB_DIR/buildscript/lib/wait_for_emulator
     - $LIB_DIR/buildscript/lib/wait_for_emulator 
     - rm project.properties
-    - update_lib_project . ../android_common_lib/
+    - update_lib_project . $LIB_DIR
+    - cat $LIB_DIR/project.properties
 
 script:
     - ant debug  
