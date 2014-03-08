@@ -41,7 +41,7 @@ script:
     - ant debug  
 
 # wait emulator ready.
-    - wati_for_emulator
+    - wait_for_emulator
     - ant installd
 #    - exit 0
 #
