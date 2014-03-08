@@ -30,8 +30,7 @@ install:
     - export LIB_DIR=../android_common_lib
     - echo yes | git clone https://github.com/luoqii/android_common_lib $LIB_DIR
     - source $LIB_DIR/buildscript/lib/common.sh
-    - chmod a+x $LIB_DIR/buildscript/lib/wait_for_emulator
-    - $LIB_DIR/buildscript/lib/wait_for_emulator 
+    - wait_for_emulator
     - rm project.properties
     - update_lib_project . $LIB_DIR
     - cat $LIB_DIR/project.properties
@@ -41,7 +40,6 @@ script:
     - ant debug  
 
 # wait emulator ready.
-    - adb wait-for-device 
     - chmod a+x $LIB_DIR/buildscript/lib/wait_for_emulator
     - $LIB_DIR/buildscript/lib/wait_for_emulator
 
