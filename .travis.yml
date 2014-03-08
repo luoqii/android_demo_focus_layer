@@ -22,7 +22,8 @@ before_install:
     - android list target
     - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
     - emulator -avd test -no-skin -no-audio -no-window &
-    - adb wait-for-device 
+# do this as later sa possiable
+#    - adb wait-for-device 
     - android update project -p . -t $ANDROID_TARGET
 
 install:
@@ -38,15 +39,21 @@ install:
 
 script:
     - ant debug  
+
+# wait emulator ready.
+    - adb wait-for-device 
+    - chmod a+x $LIB_DIR/buildscript/lib/wait_for_emulator
+    - $LIB_DIR/buildscript/lib/wait_for_emulator
+
     - ant installd
-    - exit 0
-
-    - cd test/unit
-    - chmod a+x run_test.ant
-    - adb devices
-    - ./run_test.ant
-
-    - cd ../..
-    - cd test/uiautomator
-    - chmod a+x run_test.sh
-    - ./run_test.sh
+#    - exit 0
+#
+#    - cd test/unit
+#    - chmod a+x run_test.ant
+#    - adb devices
+#    - ./run_test.ant
+#
+#    - cd ../..
+#    - cd test/uiautomator
+#    - chmod a+x run_test.sh
+#    - ./run_test.sh

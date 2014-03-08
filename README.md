@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/luoqii/android_demo_focus_layer.png?branch=master)](https://travis-ci.org/luoqii/android_demo_focus_layer)
+
 android_demo_focus_layer
 ========================
 
