@@ -34,6 +34,7 @@ install:
     - rm project.properties
     - update_lib_project . $LIB_DIR
     - cat $LIB_DIR/project.properties
+    - cat $LIB_DIR/build.xml
 
 script:
     - ant debug  
