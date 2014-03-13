@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.Transformation;
 
 /**
  * 
  * impl by {@link Animation}
+ * 
  * @author bysong
- *
+ * @see #onInvalidateParent()
  */
 public class AnimationFocusLayout extends BaseFocusLayout {
     static final String TAG = AnimationFocusLayout.class.getSimpleName();
@@ -92,10 +94,26 @@ public class AnimationFocusLayout extends BaseFocusLayout {
                     + toY + " pivotX: " + pivotX + " pivotY: " + pivotY);
         }
         ScaleAnimation s = new ScaleAnimation(fromX, toX, fromY, toY, Animation.RELATIVE_TO_SELF,
-                pivotX, Animation.RELATIVE_TO_SELF, pivotY);
+                pivotX, Animation.RELATIVE_TO_SELF, pivotY) {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                // TODO Auto-generated method stub
+                super.applyTransformation(interpolatedTime, t);
+                
+                onInvalidateParent();
+            }
+        };
         s.setDuration(mConfigure.mDuration);
         s.setInterpolator(new LinearInterpolator());
         v.startAnimation(s);
+    }
+
+    /**
+     * the scale up animation will overlap parent's (or grandfather's) region, so
+     * you should invalidate it properly.
+     */
+    protected void onInvalidateParent() {
+        
     }    
     
 }

@@ -23,7 +23,9 @@ import android.widget.AbsoluteLayout;
  * <li>2) FrameLayout
  * <li>3) all ViewGroup which only have ONE child.
  * </ul>
- * 
+ * <p>
+ * <em>note:</em>
+ * we will add a {@link View.OnFocusChangeListener} on child only.
  * @author bysong
  *
  */
@@ -57,8 +59,8 @@ public class BaseFocusLayout extends AbsoluteLayout implements IFocusAnimationLa
     
     void init() {
         mConfigure = new AnimationConfigure();
-        mConfigure.mScaleFactor = 3.1f;
-        mConfigure.mDuration = 2000;
+//        mConfigure.mScaleFactor = 3.1f;
+//        mConfigure.mDuration = 2000;
         mFPS = new FPSLoger(TAG);
         mTmpRect = new Rect();
         mListener = new OnFocusChangeListener() {
