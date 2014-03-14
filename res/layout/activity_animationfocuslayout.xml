@@ -18,7 +18,7 @@
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="100dp"
+            android:layout_width="50dp"
             android:layout_height="100dp"
             android:layout_x="200dp"
             android:layout_y="50dp"
@@ -27,15 +27,15 @@
         <Button
             android:id="@+id/button1"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:layout_x="50dp"
             android:layout_y="200dp"
             android:text="button3" />
 
         <Button
             android:id="@+id/button1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_x="200dp"
             android:layout_y="200dp"
             android:text="button4" />

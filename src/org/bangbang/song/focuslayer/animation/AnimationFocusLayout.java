@@ -50,6 +50,7 @@ public class AnimationFocusLayout extends BaseFocusLayout {
         Rect rect = r;
         v.getDrawingRect(mTmpRect);
         Rect scaledRect = mConfigure.mLastScaledFocusRect;
+        scaledRect = new Rect(mTmpRect);
         
         float fromX = (float) scaledRect.width() / rect.width();
         float toX = 1;
