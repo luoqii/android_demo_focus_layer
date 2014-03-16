@@ -17,7 +17,7 @@ public abstract class BaseAnimationFocusLayerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_animationfocuslayer);
+        setContentView(onCreateContentRes());
         
         ViewGroup g = (ViewGroup) findViewById(R.id.content);
         LayoutParams params = new RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.FILL_PARENT,
@@ -35,7 +35,9 @@ public abstract class BaseAnimationFocusLayerActivity extends Activity {
         });
     }
 
-    protected abstract View getFocusLayer();
+    protected abstract int onCreateContentRes();
+
+	protected abstract View getFocusLayer();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

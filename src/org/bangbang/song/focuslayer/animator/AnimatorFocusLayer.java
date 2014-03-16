@@ -5,7 +5,6 @@ import org.bangbang.song.demo.focuslayer.R;
 import org.bangbang.song.focuslayer.BaseAnimationFocusLayer;
 
 import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.AnimatorSet.Builder;
 import android.animation.ObjectAnimator;
@@ -13,18 +12,11 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.widget.AbsoluteLayout;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
 /**
  * impl focus layer by {@link Animator}.
