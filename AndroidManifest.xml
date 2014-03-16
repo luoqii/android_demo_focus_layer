@@ -77,6 +77,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="org.bangbang.song.demo.focuslayer.GLFocusLayerActivity"
+            android:label="Focuslayer/GLFocusLayerActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="org.bangbang.song.demo.focuslayer.AnimatorFocusLayerActivity"
             android:label="Focuslayer/AnimatorFocusLayerActivity" >
             <intent-filter>
