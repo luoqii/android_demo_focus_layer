@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 public class OffScreenLayout extends FrameLayout {
     private static final String TAG = OffScreenLayout.class.getSimpleName();

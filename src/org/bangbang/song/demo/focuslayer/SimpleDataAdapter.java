@@ -1,9 +1,6 @@
 
 package org.bangbang.song.demo.focuslayer;
 
-import java.util.List;
-
-import android.R;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;

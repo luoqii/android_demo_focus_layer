@@ -3,13 +3,14 @@ package org.bangbang.song.focuslayer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import org.bangbang.song.android.commonlib.LogRender;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -81,15 +82,13 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 		mConfig.onFocusSessionEnd(lastFocus);
 	}
 
-	class LayerRender implements Renderer {
+	class LayerRender extends LogRender {
 
 		private int mTextureId;
 
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-			if (DEBUG) {
-				Log.d(TAG, "onSurfaceCreated. gl: " + gl + " config: " + config);
-			}
+			super.onSurfaceCreated(gl, config);
 
 			gl.glClearColor(0f, 0f, .0f, 0f);
 			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -106,9 +105,7 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 
 		@Override
 		public void onSurfaceChanged(GL10 gl, int w, int h) {
-			if (DEBUG) {
-				Log.d(TAG, "onSurfaceChanged. gl: " + gl + " w: " + w + " h: " + h);
-			}
+			super.onSurfaceChanged(gl, w, h);
 
 			gl.glViewport(0, 0, w, h); float ratio = (float) w / h;
 			gl.glMatrixMode(GL10.GL_PROJECTION); gl.glLoadIdentity();
@@ -117,9 +114,7 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 
 		@Override
 		public void onDrawFrame(GL10 gl) {
-			if (DEBUG) {
-				Log.d(TAG, "onDrawFrame. gl: " + gl);
-			}
+			super.onDrawFrame(gl);
 			
 			Bitmap bitmap = mConfig.mCurrentFocusBitmap;
 			if (null != bitmap){

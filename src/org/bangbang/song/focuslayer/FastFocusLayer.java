@@ -2,7 +2,6 @@
 package org.bangbang.song.focuslayer;
 
 import org.bangbang.song.android.commonlib.FPSLoger;
-import org.bangbang.song.demo.focuslayer.R;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;

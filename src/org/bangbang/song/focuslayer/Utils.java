@@ -2,7 +2,6 @@ package org.bangbang.song.focuslayer;
 
 import org.bangbang.song.demo.focuslayer.R;
 
-import android.util.Log;
 import android.view.View;
 
 

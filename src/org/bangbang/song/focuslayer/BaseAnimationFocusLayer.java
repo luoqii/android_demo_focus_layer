@@ -4,22 +4,15 @@ package org.bangbang.song.focuslayer;
 import org.bangbang.song.android.commonlib.FPSLoger;
 import org.bangbang.song.android.commonlib.Grid;
 import org.bangbang.song.android.commonlib.Grid.GridDrawer;
-import org.bangbang.song.android.commonlib.ViewUtil;
-import org.bangbang.song.demo.focuslayer.R;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 
 /**

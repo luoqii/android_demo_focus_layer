@@ -1,7 +1,6 @@
 package org.bangbang.song.demo.focuslayer;
 
 import org.bangbang.song.focuslayer.BaseFocusLayout;
-import org.bangbang.song.focuslayer.animation.AnimationFocusLayout;
 import org.bangbang.song.focuslayer.animator.AnimatorFocusLayout;
 
 import android.app.Activity;
@@ -16,7 +15,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.ListView;
