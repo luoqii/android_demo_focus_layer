@@ -4,6 +4,7 @@ package org.bangbang.song.focuslayer.animator;
 import org.bangbang.song.focuslayer.BaseFocusLayout;
 
 import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -19,7 +20,7 @@ import android.view.animation.ScaleAnimation;
  * 
  * @author bysong
  */
-public class AnimatorFocusLayout extends BaseFocusLayout {
+public class AnimatorFocusLayout extends BaseFocusLayout implements AnimatorListener {
     static final String TAG = AnimatorFocusLayout.class.getSimpleName();
 
     public AnimatorFocusLayout(Context context, AttributeSet attrs, int defStyle) {
@@ -72,6 +73,7 @@ public class AnimatorFocusLayout extends BaseFocusLayout {
             Log.d(TAG, "toX: " + toX + " toY: " + toY
                     + " toScaleX: " + toScaleX + " toScaleY: " + toScaleY);
         }
+        animator.setListener(this);
         animator.start();
     }
 
@@ -104,7 +106,32 @@ public class AnimatorFocusLayout extends BaseFocusLayout {
             Log.d(TAG, "toX: " + toX + " toY: " + toY
                     + " toScaleX: " + toScaleX + " toScaleY: " + toScaleY);
         }
+        animator.setListener(this);
         animator.start();
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

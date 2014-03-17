@@ -84,6 +84,7 @@ public class BaseFocusLayout extends AbsoluteLayout implements IFocusAnimationLa
                 v.setTag(ID_ORIGINAL_BOUND, new Rect(v.getLeft(), v.getTop(),
                         v.getWidth() + v.getLeft(), v.getTop() + v.getHeight()));
             }
+            // XXX user custom drawing order is better.
             v.bringToFront();
             doScalUp(v);
         } else {

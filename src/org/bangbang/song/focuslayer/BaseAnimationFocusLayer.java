@@ -69,6 +69,8 @@ public class BaseAnimationFocusLayer extends
                 Context.LAYOUT_INFLATER_SERVICE));
         
         mConfigure = new AnimationConfigure();
+        mConfigure.mDisableAutoGenBitmap = false;
+        
         mLastFocusView = onInflateScaleAnimationView(inflater);
         mCurrentFocusView = onInflateScaleAnimationView(inflater);
         addView(mLastFocusView);

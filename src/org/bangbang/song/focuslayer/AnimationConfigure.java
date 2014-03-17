@@ -40,12 +40,14 @@ public class AnimationConfigure {
     public int mDuration;
     public float mScaleFactor;
     public boolean mDisableScaleAnimation;
+    public boolean mDisableAutoGenBitmap;
     private boolean mFirstFocus = true;
     
     public AnimationConfigure() {
         mDuration = DEFAULT_ANIMATION_DURATION;
         mScaleFactor = DEFAULT_SCALE_FACOTR;
         mDisableScaleAnimation = false;
+        mDisableAutoGenBitmap = true;
         mMatrix = new Matrix();
         
         mFocusDrawable = R.drawable.search_button_hover;
@@ -132,7 +134,7 @@ public class AnimationConfigure {
 
     private void updateBitmap(View focus) {
         // calculate bitmap
-        if (!mDisableScaleAnimation) {
+        if (!mDisableScaleAnimation && !mDisableAutoGenBitmap) {
             // recycle unused bitmap.
             // do we need this??? GC it automatically??? 
             if (null != mLastFocusBitmap) {

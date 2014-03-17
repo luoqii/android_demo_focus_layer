@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
@@ -19,7 +20,7 @@ import android.view.animation.Transformation;
  * @author bysong
  * @see #onInvalidateParent()
  */
-public class AnimationFocusLayout extends BaseFocusLayout {
+public class AnimationFocusLayout extends BaseFocusLayout implements AnimationListener {
     static final String TAG = AnimationFocusLayout.class.getSimpleName();
     public AnimationFocusLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -66,6 +67,7 @@ public class AnimationFocusLayout extends BaseFocusLayout {
                 pivotX, Animation.RELATIVE_TO_SELF, pivotY);
         s.setDuration(mConfigure.mDuration);
         s.setInterpolator(new LinearInterpolator());
+        s.setAnimationListener(this);
         v.startAnimation(s);
     }
     
@@ -106,6 +108,7 @@ public class AnimationFocusLayout extends BaseFocusLayout {
         };
         s.setDuration(mConfigure.mDuration);
         s.setInterpolator(new LinearInterpolator());
+        s.setAnimationListener(this);
         v.startAnimation(s);
     }
 
@@ -114,6 +117,24 @@ public class AnimationFocusLayout extends BaseFocusLayout {
      * you should invalidate it properly.
      */
     protected void onInvalidateParent() {
+        
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+        // TODO Auto-generated method stub
         
     }    
     
