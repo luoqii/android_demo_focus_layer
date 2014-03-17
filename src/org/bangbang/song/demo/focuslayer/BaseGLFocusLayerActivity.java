@@ -3,7 +3,6 @@ package org.bangbang.song.demo.focuslayer;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
 
 public abstract class BaseGLFocusLayerActivity extends Activity {
