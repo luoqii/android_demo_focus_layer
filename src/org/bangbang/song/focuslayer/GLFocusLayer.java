@@ -4,12 +4,11 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import org.bangbang.song.android.commonlib.GLUtil;
 import org.bangbang.song.android.commonlib.LogRender;
 
 import android.content.Context;
@@ -20,7 +19,6 @@ import android.graphics.RectF;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
@@ -102,7 +100,6 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);
 			logError(gl, "glBindTexture");
 		}
-
 		@Override
 		public void onSurfaceChanged(GL10 gl, int w, int h) {
 			super.onSurfaceChanged(gl, w, h);
@@ -119,7 +116,6 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			Bitmap bitmap = mConfig.mCurrentFocusBitmap;
 			if (null != bitmap){
 				GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
-				noError(gl);
 			}
 			gl.glActiveTexture(GL10.GL_TEXTURE0);
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);
@@ -129,6 +125,10 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			 gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		}
 
+	}
+
+	private void logError(GL10 gl, String methodName) {
+		GLUtil.logError(gl, TAG, methodName);
 	}
 
 	class RectModel {
@@ -218,54 +218,5 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			mIndexBuffer.position(0);
 			
 		}
-	}
-	
-	void noError(GL10 gl){
-		int error = gl.glGetError();
-		int i = 1;
-		while (error != GL10.GL_NO_ERROR){
-			Log.w(TAG, "previous " + i + "th methed has error. : " + glError(error));
-			error = gl.glGetError();
-		}
-	}
-	
-	void logError(GL10 gl, String lastMethodName){
-		int error = gl.glGetError();
-		int last = error;
-		int i = 1;
-		while (error != GL10.GL_NO_ERROR){
-			last = error;
-			error = gl.glGetError();
-			if (error != GL10.GL_NO_ERROR) {
-				Log.w(TAG, "previous " + i + "th method has error. :" + glError(error));
-			}
-			i++;
-		}
-		
-		Log.d(TAG, lastMethodName + " error: " + glError(last));
-	}
-	
-	static Map<Integer, String> sErrorMap;
-	static {
-		sErrorMap = new HashMap<Integer, String>();
-
-		sErrorMap.put(GL10.GL_NO_ERROR, "GL_NO_ERROR");
-		sErrorMap.put(GL10.GL_INVALID_ENUM, "GL_INVALID_ENUM");
-		sErrorMap.put(GL10.GL_INVALID_VALUE, "GL_INVALID_VALUE");
-		sErrorMap.put(GL10.GL_INVALID_OPERATION, "GL_INVALID_OPERATION");
-		sErrorMap.put(GL10.GL_STACK_OVERFLOW, "GL_STACK_OVERFLOW");
-		sErrorMap.put(GL10.GL_STACK_UNDERFLOW, "GL_STACK_UNDERFLOW");
-		sErrorMap.put(GL10.GL_OUT_OF_MEMORY, "GL_OUT_OF_MEMORY");
-		sErrorMap.put(GL10.GL_NO_ERROR, "GL_NO_ERROR");
-		sErrorMap.put(GL10.GL_NO_ERROR, "GL_NO_ERROR");
-	}
-	
-	public static String glError(int error){
-		String errorStr = "unknown error code. [" + error + "]";
-		if (sErrorMap.containsKey(error)) {
-			errorStr = sErrorMap.get(error);
-		}
-		
-		return errorStr;
-	}
+	}	
 }
