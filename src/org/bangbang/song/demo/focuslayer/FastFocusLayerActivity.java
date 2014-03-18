@@ -19,4 +19,9 @@ public class FastFocusLayerActivity extends BaseAnimationFocusLayerActivity {
         return new FastFocusLayer(this);
     }
 
+	@Override
+	protected int onCreateContentRes() {
+		return R.layout.activity_fastfocuslayer;
+	}
+
 }

@@ -18,5 +18,9 @@ public class AnimatorFocusLayerActivity extends BaseAnimationFocusLayerActivity 
     protected View getFocusLayer() {
         return new AnimatorFocusLayer(this);
     }
-
+    
+	@Override
+	protected int onCreateContentRes() {
+		return R.layout.activity_animatorfocuslayer;
+	}
 }

@@ -165,19 +165,25 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         canvas.drawColor(Color.TRANSPARENT);
 
         mTmp = mTransalteRect.toRect();
-//        Log.d(TAG, "drawRect. rect: " + mTmp);
+        if (DEBUG) {
+        	Log.d(TAG, "drawRect. rect: " + mTmp);
+        }
         mTranslateDrawable.setBounds(mTmp);
         mTranslateDrawable.draw(canvas);
 
         if (mConfigure.mCurrentFocusBitmap != null) {
             mTmp = mScaleUpRect.toRect();
-//            Log.d(TAG, "drawBitmap. rect: " + mTmp);
+            if (DEBUG) {
+            	Log.d(TAG, "draw current bitmap. rect: " + mTmp);
+            }
             mCanvas.drawBitmap(mConfigure.mCurrentFocusBitmap, 
                     null, mTmp, mPaint);
         }
         if (mConfigure.mLastFocusBitmap != null) {
             mTmp = mScaleDownRect.toRect();
-//            Log.d(TAG, "drawBitmap. rect: " + mTmp);
+            if (DEBUG) {
+            	Log.d(TAG, "draw last bitmap. rect: " + mTmp);
+            }
             mCanvas.drawBitmap(mConfigure.mLastFocusBitmap, 
                     null, mTmp, mPaint);
         }
