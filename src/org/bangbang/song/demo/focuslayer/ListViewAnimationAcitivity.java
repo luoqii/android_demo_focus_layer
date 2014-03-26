@@ -2,7 +2,7 @@ package org.bangbang.song.demo.focuslayer;
 
 import org.bangbang.song.focuslayer.BaseFocusLayout;
 import org.bangbang.song.focuslayer.animation.AnimationFocusLayout;
-import org.bangbang.song.focuslayer.animator.AnimatorFocusLayout;
+import org.bangbang.song.focuslayer.animator.ScaleAnimatorFocusLayout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -124,7 +124,7 @@ public class ListViewAnimationAcitivity extends Activity {
     
     public static class MyLayout extends 
 //    AnimationFocusLayout 
-    AnimatorFocusLayout
+    ScaleAnimatorFocusLayout
     {
 
         public MyLayout(Context context, AttributeSet attrs, int defStyle) {

@@ -20,20 +20,20 @@ import android.view.animation.ScaleAnimation;
  * 
  * @author bysong
  */
-public class AnimatorFocusLayout extends BaseFocusLayout implements AnimatorListener {
-    static final String TAG = AnimatorFocusLayout.class.getSimpleName();
+public class ScaleAnimatorFocusLayout extends BaseFocusLayout implements AnimatorListener {
+    static final String TAG = ScaleAnimatorFocusLayout.class.getSimpleName();
 
-    public AnimatorFocusLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ScaleAnimatorFocusLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
     }
 
-    public AnimatorFocusLayout(Context context, AttributeSet attrs) {
+    public ScaleAnimatorFocusLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
     }
 
-    public AnimatorFocusLayout(Context context) {
+    public ScaleAnimatorFocusLayout(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
     }
@@ -50,7 +50,6 @@ public class AnimatorFocusLayout extends BaseFocusLayout implements AnimatorList
         // updatePosition(v, r);
 
         Rect rect = r;
-        v.getDrawingRect(mTmpRect);
         Rect scaledRect = mConfigure.mLastScaledFocusRect;
 
         ViewPropertyAnimator animator = v.animate();

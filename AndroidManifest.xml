@@ -86,8 +86,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.bangbang.song.demo.focuslayer.AnimatorFocusLayoutActivity"
-            android:label="Focuslayer/AnimatorFocusLayoutActivity" >
+            android:name="org.bangbang.song.demo.focuslayer.ScaleAnimatorFocusLayoutActivity"
+            android:label="Focuslayer/ScaleAnimatorFocusLayout" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.bangbang.song.demo.focuslayer.TransformationAnimatorFocusLayoutActivity"
+            android:label="Focuslayer/TransformationAnimatorFocusLayout" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

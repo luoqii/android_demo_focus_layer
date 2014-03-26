@@ -7,7 +7,7 @@
     android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.bangbang.song.focuslayer.animator.ScaleAnimatorFocusLayout" >
+        class="org.bangbang.song.focuslayer.animator.TransformationAnimatorFocusLayout" >
 
         <Button
             android:id="@+id/button1"

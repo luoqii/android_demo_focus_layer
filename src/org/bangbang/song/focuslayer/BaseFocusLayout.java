@@ -32,7 +32,8 @@ import android.widget.AbsoluteLayout;
 public class BaseFocusLayout extends AbsoluteLayout implements IFocusAnimationLayer {
     private static final String TAG = BaseFocusLayout.class.getSimpleName();
     
-    protected static final boolean DEBUG = true;
+    protected static final boolean DEBUG = true;  
+    // we don't case the id value, as long as it has one value.
     public static final int ID_ORIGINAL_BOUND = R.id.paste;
     protected AnimationConfigure mConfigure;
     private OnFocusChangeListener mListener;
@@ -60,7 +61,7 @@ public class BaseFocusLayout extends AbsoluteLayout implements IFocusAnimationLa
     void init() {
         mConfigure = new AnimationConfigure();
 //        mConfigure.mScaleFactor = 3.1f;
-//        mConfigure.mDuration = 2000;
+        mConfigure.mDuration = 2000;
         mFPS = new FPSLoger(TAG);
         mTmpRect = new Rect();
         mListener = new OnFocusChangeListener() {
