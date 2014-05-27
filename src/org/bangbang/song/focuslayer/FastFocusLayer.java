@@ -11,6 +11,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -33,6 +34,7 @@ import android.view.View;
 /**
  * @author bysong
  */
+@SuppressLint("NewApi")
 public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer, Callback {
     private static final String TAG = FastFocusLayer.class.getSimpleName();
     private static final boolean DEBUG = true;
@@ -48,7 +50,7 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
     private Canvas mCanvas = null;
 
     private boolean mAnimationEnd;
-    private ValueAnimator mAnimation;
+    private ValueAnimator mTransferAnimation;
     private AnimatableRect mTransalteRect;
     private AnimatableRect mScaleUpRect;
     private AnimatableRect mScaleDownRect;
@@ -77,6 +79,7 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
     void init() {
         setId(Utils.FOCUS_LAYER_ID);
         mConfigure = new AnimationConfigure();
+        mConfigure.mDuration = 100;
 
         mHolder = getHolder();
         // for show what we draw on content.
@@ -154,10 +157,12 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
      * 
      * @param canvas
      */
+    @SuppressLint("WrongCall")
     public void onDrawFrame(Canvas canvas) {
 //        Log.d(TAG, "onDrawFrame()");
         if (mConfigure.TRACK_FPS) {
             mFps.onDraw();
+            mFps.onDrawStart();
         }
         
         canvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
@@ -186,6 +191,10 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
             mCanvas.drawBitmap(mConfigure.mLastFocusBitmap, 
                     null, mTmp, mPaint);
         }
+        
+        if (mConfigure.TRACK_FPS) {
+            mFps.onDrawEnd();
+        }
     }
 
     @Override
@@ -198,15 +207,15 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
             try {
                 mCanvas = mHolder.lockCanvas();
                 if (null != mCanvas) {
-                    // if (null != mAnimation) {
-                    // Log.d(TAG, "running: " + mAnimation.isRunning() +
-                    // " started: " + mAnimation.isStarted());
+                    // if (null != mTransferAnimation) {
+                    // Log.d(TAG, "running: " + mTransferAnimation.isRunning() +
+                    // " started: " + mTransferAnimation.isStarted());
                     // }
 //                    Log.d(TAG, "mAnimationEnd: " + mAnimationEnd);
                     if (mRequestAnimation) {
                         mRequestAnimation = false;
                         startAnimation();
-                    } else if (mAnimation.isRunning()) {
+                    } else if (mTransferAnimation.isRunning()) {
                     }
 
                     onDrawFrame(mCanvas);
@@ -219,12 +228,12 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
         }
 
         private void startAnimation() {
-            mAnimation = ValueAnimator.ofObject(new AnimatableEvaluator(),
+            mTransferAnimation = ValueAnimator.ofObject(new AnimatableEvaluator(),
                     new AnimatableRect[] {
                             AnimatableRect.fromRect(mConfigure.mLastScaledFocusRect),
                             AnimatableRect.fromRect(mConfigure.mCurrentScaledFocusRect)
                     });
-            mAnimation.addUpdateListener(new AnimatorUpdateListener() {
+            mTransferAnimation.addUpdateListener(new AnimatorUpdateListener() {
 
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -233,7 +242,7 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
                     requestDrawFrame();
                 }
             });
-            mAnimation.addListener(new AnimatorListener() {
+            mTransferAnimation.addListener(new AnimatorListener() {
 
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -257,10 +266,11 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
                 }
             });
 
-//            mAnimation.setRepeatCount(0);
-//            mAnimation.setDuration(mConfigure.mDuration);
-//            mAnimation.start();
+//            mTransferAnimation.setRepeatCount(0);
+//            mTransferAnimation.setDuration(mConfigure.mDuration);
+//            mTransferAnimation.start();
             
+            // scale up animation
             Animator top = ObjectAnimator.ofInt(mScaleUpRect, "top", 
                     new int[] {mConfigure.mCurrentFocusRect.top, mConfigure.mCurrentScaledFocusRect.top});
 
@@ -272,6 +282,8 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
 
             Animator bottom = ObjectAnimator.ofInt(mScaleUpRect, "bottom", 
                     new int[] {mConfigure.mCurrentFocusRect.bottom, mConfigure.mCurrentScaledFocusRect.bottom});
+            
+            // scale down animation.
             Animator pHoloder = ObjectAnimator.ofPropertyValuesHolder(mScaleDownRect, new PropertyValuesHolder[] {
                     PropertyValuesHolder.ofInt("top", new int[] {mConfigure.mLastScaledFocusRect.top, 
                             mConfigure.mLastFocusRect.top}),
@@ -282,9 +294,10 @@ public class FastFocusLayer extends SurfaceView implements IFocusAnimationLayer,
                    PropertyValuesHolder.ofInt("bottom", new int[] {mConfigure.mLastScaledFocusRect.bottom, 
                            mConfigure.mLastFocusRect.bottom}),
             });
+            
             AnimatorSet set = new AnimatorSet();
             set.setDuration(mConfigure.mDuration);
-            set.playTogether(new Animator[] {mAnimation, left, top, right, bottom, pHoloder});
+            set.playTogether(new Animator[] {mTransferAnimation, left, top, right, bottom, pHoloder});
             set.start();
             Log.d(TAG, "start animtion");
         }
