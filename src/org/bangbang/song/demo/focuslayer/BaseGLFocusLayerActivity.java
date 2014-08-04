@@ -1,9 +1,13 @@
 
 package org.bangbang.song.demo.focuslayer;
 
+import org.bangbang.song.focuslayer.Utils;
+
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
 
 public abstract class BaseGLFocusLayerActivity extends Activity {
 	private GLSurfaceView mGlView;
@@ -12,10 +16,19 @@ public abstract class BaseGLFocusLayerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.activity_glfocuslayer);
+		setContentView(R.layout.activity_glfocuslayer);		
 		
-		mGlView = (GLSurfaceView)findViewById(R.id.focusLayer);
+		mGlView = (GLSurfaceView)findViewById(Utils.FOCUS_LAYER_ID);
 		onInitGLView(mGlView);
+		
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
+            
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                Utils.onFocusChange(oldFocus, false);
+                Utils.onFocusChange(newFocus, true);
+            }
+        });
 	}
 
 	protected abstract void onInitGLView(GLSurfaceView view);
