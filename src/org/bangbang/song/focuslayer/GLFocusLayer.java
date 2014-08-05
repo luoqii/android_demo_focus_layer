@@ -33,6 +33,7 @@ import android.graphics.RectF;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
@@ -75,8 +76,7 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 		setRenderMode(RENDERMODE_WHEN_DIRTY);
 //		setRenderMode(RENDERMODE_CONTINUOUSLY);
 
-//		setDebugFlags(DEBUG_CHECK_GL_ERROR);	
-//		setDebugFlags(DEBUG_LOG_GL_CALLS);
+		setDebugFlags(DEBUG_LOG_GL_CALLS|DEBUG_CHECK_GL_ERROR);
 		
 		mTransfer = new RectModel();
 	}
@@ -108,15 +108,12 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			gl.glClearColor(0f, 0f, .0f, 0f);
 			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 	        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			logError(gl, "glEnableClientState");
 			
 			int[] textures = new int[1];
 			gl.glGenTextures(1, textures, 0);
-			logError(gl, "glGenTextures");
 			
 			mTextureId = textures[0];
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);
-			logError(gl, "glBindTexture");
 	        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
 	        		GL_LINEAR);
 	        glTexParameterf(GL_TEXTURE_2D,
@@ -154,17 +151,11 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			if (null != bitmap){
 				GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 			}
-			
-			logError(gl, "glActiveTexture");
 			mTransfer.draw(gl);
 			
 			 gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		}
 
-	}
-
-	private void logError(GL10 gl, String methodName) {
-		GLUtil.logError(gl, TAG, methodName);
 	}
 
 	class RectModel {
@@ -202,23 +193,20 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 
 		public void updateRect(Rect r) {
 			mRect = new RectF(r);
+			mRect = new RectF(.1f, .1f, .8f, .8f);
+			Log.d(TAG, "updateRect rect: " + mRect);
 		}
 
 		public void draw(GL10 gl) {
 			calculate();
 
 			gl.glFrontFace(GL10.GL_CCW);
-			logError(gl, "glFrontFace");
-			gl.glVertexPointer(COORDS_PER_VERTEX, GL10.GL_FIXED, 0, mVertexBuffer);
-			logError(gl, "glVertexPointer");
+			gl.glVertexPointer(COORDS_PER_VERTEX, GL10.GL_FLOAT, 0, mVertexBuffer);
 			
 			gl.glEnable(GL10.GL_TEXTURE_2D);
-			logError(gl, "glEnable");			
-			gl.glTexCoordPointer(TEXTURE_PER_VERTEX, GL10.GL_FIXED, 0, mTexureBuffer);
-			logError(gl, "glTexCoordPointer");
+			gl.glTexCoordPointer(TEXTURE_PER_VERTEX, GL10.GL_FLOAT, 0, mTexureBuffer);
 			gl.glDrawElements(GL10.GL_TRIANGLES, VERTEX_COUNT,
 					GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
-			logError(gl, "glDrawElements");
 		}
 
 		private void calculate() {
@@ -249,9 +237,9 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			mIndexBuffer.put((short) 0);
 			mIndexBuffer.put((short) 1);
 			mIndexBuffer.put((short) 2);
-			mIndexBuffer.put((short) 0);
-			mIndexBuffer.put((short) 2);
-			mIndexBuffer.put((short) 3);
+//			mIndexBuffer.put((short) 0);
+//			mIndexBuffer.put((short) 2);
+//			mIndexBuffer.put((short) 3);
 			mIndexBuffer.position(0);
 			
 		}
