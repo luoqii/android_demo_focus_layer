@@ -2,15 +2,16 @@ package org.bangbang.song.focuslayer;
 
 import static android.opengl.GLES10.GL_CLAMP_TO_EDGE;
 import static android.opengl.GLES10.GL_LINEAR;
+import static android.opengl.GLES10.GL_REPLACE;
 import static android.opengl.GLES10.GL_TEXTURE_2D;
 import static android.opengl.GLES10.GL_TEXTURE_COORD_ARRAY;
+import static android.opengl.GLES10.GL_TEXTURE_ENV;
+import static android.opengl.GLES10.GL_TEXTURE_ENV_MODE;
 import static android.opengl.GLES10.GL_TEXTURE_MAG_FILTER;
 import static android.opengl.GLES10.GL_TEXTURE_MIN_FILTER;
 import static android.opengl.GLES10.GL_TEXTURE_WRAP_S;
 import static android.opengl.GLES10.GL_TEXTURE_WRAP_T;
-import static android.opengl.GLES10.glBindTexture;
-import static android.opengl.GLES10.glEnableClientState;
-import static android.opengl.GLES10.glGenTextures;
+import static android.opengl.GLES10.glTexEnvf;
 import static android.opengl.GLES10.glTexParameterf;
 
 import java.nio.ByteBuffer;
@@ -21,15 +22,14 @@ import java.nio.ShortBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import org.bangbang.song.android.commonlib.GLUtil;
 import org.bangbang.song.android.commonlib.LogRender;
-import org.bangbang.song.demo.focuslayer.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.opengl.GLDebugHelper;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.AttributeSet;
@@ -76,7 +76,7 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 		setRenderMode(RENDERMODE_WHEN_DIRTY);
 //		setRenderMode(RENDERMODE_CONTINUOUSLY);
 
-		setDebugFlags(DEBUG_LOG_GL_CALLS|DEBUG_CHECK_GL_ERROR);
+		setDebugFlags(DEBUG_LOG_GL_CALLS|DEBUG_CHECK_GL_ERROR|GLDebugHelper.CONFIG_LOG_ARGUMENT_NAMES);
 		
 		mTransfer = new RectModel();
 	}
@@ -125,6 +125,9 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 	        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
 	                GL_CLAMP_TO_EDGE);
 	        
+	        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,
+	                GL_REPLACE);
+	        
 		}
 		@Override
 		public void onSurfaceChanged(GL10 gl, int w, int h) {
@@ -141,11 +144,10 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 		public void onDrawFrame(GL10 gl) {
 			super.onDrawFrame(gl);
 
-			
+
+			gl.glEnable(GL10.GL_TEXTURE_2D);
 			gl.glActiveTexture(GL10.GL_TEXTURE0);
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);
-			
-			
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);			
 
 			Bitmap bitmap = mConfig.mCurrentFocusBitmap;
 			if (null != bitmap){
@@ -205,7 +207,7 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			
 			gl.glEnable(GL10.GL_TEXTURE_2D);
 			gl.glTexCoordPointer(TEXTURE_PER_VERTEX, GL10.GL_FLOAT, 0, mTexureBuffer);
-			gl.glDrawElements(GL10.GL_TRIANGLES, VERTEX_COUNT,
+			gl.glDrawElements(GL10.GL_TRIANGLES, 6,
 					GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
 		}
 
@@ -237,9 +239,9 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			mIndexBuffer.put((short) 0);
 			mIndexBuffer.put((short) 1);
 			mIndexBuffer.put((short) 2);
-//			mIndexBuffer.put((short) 0);
-//			mIndexBuffer.put((short) 2);
-//			mIndexBuffer.put((short) 3);
+			mIndexBuffer.put((short) 0);
+			mIndexBuffer.put((short) 2);
+			mIndexBuffer.put((short) 3);
 			mIndexBuffer.position(0);
 			
 		}
