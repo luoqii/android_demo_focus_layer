@@ -22,5 +22,5 @@ FEATURE
 
 how to build
 ========================
-require android project library [android common lib](https://github.com/luoqii/android_common_lib)
+android_common_lib.jar come from [android common lib](https://github.com/luoqii/android_common_lib).
 

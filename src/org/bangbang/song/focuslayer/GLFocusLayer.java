@@ -31,6 +31,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.opengl.GLDebugHelper;
 import android.opengl.GLSurfaceView;
+import android.opengl.GLU;
 import android.opengl.GLUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -61,6 +62,8 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 		setId(Utils.FOCUS_LAYER_ID);
 		
 		mConfig = new AnimationConfigure();
+		mConfig.mDisableAutoGenBitmap = false;
+		mConfig.mDisableScaleAnimation = false;
 
 		// We want an 8888 pixel format because that's required for
 		// a translucent window.
@@ -86,7 +89,14 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 		if (hasFocus) {
 			mConfig.onNewFocus(this, v);
 			
-			mTransfer.updateRect(mConfig.mCurrentScaledFocusRect);
+			int w = getWidth();
+			int h = getHeight();
+			RectF r = new RectF();
+			r.left = (float)mConfig.mCurrentScaledFocusRect.left / (2 *w);
+			r.bottom = (float)mConfig.mCurrentScaledFocusRect.bottom / (2 * h );
+			r.top = (float)mConfig.mCurrentScaledFocusRect.top / (2 * h);
+			r.right = (float)mConfig.mCurrentScaledFocusRect.right / (2 *w);
+			mTransfer.updateRect(r);
 		}
 
 		requestRender();
@@ -107,26 +117,25 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 
 			gl.glClearColor(0f, 0f, .0f, 0f);
 			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-	        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			
 			int[] textures = new int[1];
-			gl.glGenTextures(1, textures, 0);
-			
+			gl.glGenTextures(1, textures, 0);			
 			mTextureId = textures[0];
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);
-	        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-	        		GL_LINEAR);
-	        glTexParameterf(GL_TEXTURE_2D,
-	                GL_TEXTURE_MAG_FILTER,
-	                GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+					GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER,
+					GL_LINEAR);
 
-	        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-	                GL_CLAMP_TO_EDGE);
-	        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-	                GL_CLAMP_TO_EDGE);
-	        
-	        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,
-	                GL_REPLACE);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+					GL_CLAMP_TO_EDGE);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+					GL_CLAMP_TO_EDGE);
+
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,
+					GL_REPLACE);
 	        
 		}
 		@Override
@@ -137,14 +146,22 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			float ratio = (float) w / h;
 			gl.glMatrixMode(GL10.GL_PROJECTION); 
 			gl.glLoadIdentity();
-			gl.glFrustumf(-ratio, ratio, -1, 1, 3, 7);
+//			gl.glFrustumf(-ratio, ratio, -1, 1, 3, 7);
 		}
 
 		@Override
 		public void onDrawFrame(GL10 gl) {
 			super.onDrawFrame(gl);
+			
+			// Set GL_MODELVIEW transformation mode
+			gl.glMatrixMode(GL10.GL_MODELVIEW);
+			gl.glLoadIdentity(); // reset the matrix to its default state
 
+			// XXX bysong why we need this ???
+			// When using GL_MODELVIEW, you must set the view point
+//			 GLU.gluLookAt(gl, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
+			gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 			gl.glEnable(GL10.GL_TEXTURE_2D);
 			gl.glActiveTexture(GL10.GL_TEXTURE0);
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);			
@@ -155,7 +172,7 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			}
 			mTransfer.draw(gl);
 			
-			 gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+//			 gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		}
 
 	}
@@ -193,9 +210,9 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			mRect = new RectF();
 		}
 
-		public void updateRect(Rect r) {
+		public void updateRect(RectF r) {
 			mRect = new RectF(r);
-			mRect = new RectF(.1f, .1f, .8f, .8f);
+//			mRect = new RectF(.1f, .1f, .8f, .8f);
 			Log.d(TAG, "updateRect rect: " + mRect);
 		}
 
