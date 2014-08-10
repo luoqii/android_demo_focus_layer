@@ -91,14 +91,15 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 			int w = getWidth();
 			int h = getHeight();
 			RectF r = new RectF();
-//			x-(-1) / 2 == l/w
+//			(x-(-1) / 2) == l/w
 			r.left = (float)mConfig.mCurrentScaledFocusRect.left * 2 /w  -1.f;
-			r.bottom = (float)mConfig.mCurrentScaledFocusRect.bottom * 2/  h  - 1;
-			r.right = (float)mConfig.mCurrentScaledFocusRect.right *2 / (w) - 1;
-			r.top = (float)mConfig.mCurrentScaledFocusRect.top * 2 / ( h) - 1;
+			r.right = ((float)mConfig.mCurrentScaledFocusRect.right *2 / (w) - 1);
+			// (y - (-1) ) / 2 = - (t /h)
+			r.bottom = -((float)mConfig.mCurrentScaledFocusRect.bottom * 2/  h  - 1);
+			r.top = -((float)mConfig.mCurrentScaledFocusRect.top * 2 / ( h) - 1);
 			
-
-//			r = new RectF(.0f, .0f, 1.f, 1.f);
+//			-0.90555555, 0.9400353, -0.18333334, 0.4814815
+//			r = new RectF(-.9f, .9f, -.1f, .4f);
 			Log.d(TAG, "updateRect r: " + mConfig.mCurrentScaledFocusRect);
 			Log.d(TAG, "updateRect w: " + w + " h: " + h);
 			Log.d(TAG, "updateRect rect: " + r);
@@ -235,25 +236,25 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 		private void calculate() {
 
 			mVertexBuffer.position(0);
+			mVertexBuffer.put(mRect.left);
 			mVertexBuffer.put(mRect.top);
 			mVertexBuffer.put(mRect.left);
 			mVertexBuffer.put(mRect.bottom);
-			mVertexBuffer.put(mRect.left);
+			mVertexBuffer.put(mRect.right);
 			mVertexBuffer.put(mRect.bottom);
 			mVertexBuffer.put(mRect.right);
 			mVertexBuffer.put(mRect.top);
-			mVertexBuffer.put(mRect.right);
 			mVertexBuffer.position(0);
 
 			mTexureBuffer.position(0);
-			mTexureBuffer.put(mRect.top);
-			mTexureBuffer.put(mRect.left);
-			mTexureBuffer.put(mRect.bottom);
-			mTexureBuffer.put(mRect.left);
-			mTexureBuffer.put(mRect.bottom);
-			mTexureBuffer.put(mRect.right);
-			mTexureBuffer.put(mRect.top);
-			mTexureBuffer.put(mRect.right);
+			mTexureBuffer.put(0);
+			mTexureBuffer.put(1);
+			mTexureBuffer.put(0);
+			mTexureBuffer.put(0);
+			mTexureBuffer.put(1);
+			mTexureBuffer.put(0);
+			mTexureBuffer.put(1);
+			mTexureBuffer.put(1);
 			mTexureBuffer.position(0);
 
 			mIndexBuffer.position(0);
