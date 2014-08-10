@@ -88,14 +88,20 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 	public void onFocusChange(View v, boolean hasFocus) {
 		if (hasFocus) {
 			mConfig.onNewFocus(this, v);
-			
 			int w = getWidth();
 			int h = getHeight();
 			RectF r = new RectF();
-			r.left = (float)mConfig.mCurrentScaledFocusRect.left / (2 *w);
-			r.bottom = (float)mConfig.mCurrentScaledFocusRect.bottom / (2 * h );
-			r.top = (float)mConfig.mCurrentScaledFocusRect.top / (2 * h);
-			r.right = (float)mConfig.mCurrentScaledFocusRect.right / (2 *w);
+//			x-(-1) / 2 == l/w
+			r.left = (float)mConfig.mCurrentScaledFocusRect.left * 2 /w  -1.f;
+			r.bottom = (float)mConfig.mCurrentScaledFocusRect.bottom * 2/  h  - 1;
+			r.right = (float)mConfig.mCurrentScaledFocusRect.right *2 / (w) - 1;
+			r.top = (float)mConfig.mCurrentScaledFocusRect.top * 2 / ( h) - 1;
+			
+
+//			r = new RectF(.0f, .0f, 1.f, 1.f);
+			Log.d(TAG, "updateRect r: " + mConfig.mCurrentScaledFocusRect);
+			Log.d(TAG, "updateRect w: " + w + " h: " + h);
+			Log.d(TAG, "updateRect rect: " + r);
 			mTransfer.updateRect(r);
 		}
 
@@ -212,8 +218,6 @@ public class GLFocusLayer extends GLSurfaceView implements IFocusAnimationLayer 
 
 		public void updateRect(RectF r) {
 			mRect = new RectF(r);
-//			mRect = new RectF(.1f, .1f, .8f, .8f);
-			Log.d(TAG, "updateRect rect: " + mRect);
 		}
 
 		public void draw(GL10 gl) {
